@@ -339,27 +339,54 @@
 // writeToFile('a.txt', "hello world")
 
 
-let counter = 0;
+// let counter = 0;
 
-function updateClock() {
-    const now = new Date();
+// function updateClock() {
+//     const now = new Date();
 
-    //24-hour-format
+//     //24-hour-format
 
-    const hour24 = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
+//     const hour24 = now.getHours().toString().padStart(2, '0');
+//     const minutes = now.getMinutes().toString().padStart(2, '0');
+//     const seconds = now.getSeconds().toString().padStart(2, '0');
 
-    //12-hour-format
-    const hours12 = ((now.getHours() + 11) % 12 + 1).toString().padStart(2, '0');
-    const ampm = now.getHours() >= 12 ? 'PM' : 'AM'
+//     //12-hour-format
+//     const hours12 = ((now.getHours() + 11) % 12 + 1).toString().padStart(2, '0');
+//     const ampm = now.getHours() >= 12 ? 'PM' : 'AM'
 
-    console.log(`24-hour format  : ${hour24}:${minutes} :${seconds}`);
-    console.log(`12-hour format: ${hours12}: ${minutes}: ${seconds}  ${ampm}`)
+//     console.log(`24-hour format  : ${hour24}:${minutes} :${seconds}`);
+//     console.log(`12-hour format: ${hours12}: ${minutes}: ${seconds}  ${ampm}`)
     
 
-    setTimeout(updateClock, 1000);
+//     setTimeout(updateClock, 1000);
 
 
-};
-updateClock()
+// };
+// updateClock()
+
+
+console.log("-----top of the file------")
+
+function readTheFile(resolve){
+    console.log("readTheFile Called");
+    setTimeout(function(){
+        console.log("callback based settimeout completed")
+        resolve()
+    },3000)
+}
+
+function setTimeOutPromisified(filename){
+    console.log("setTimeoutPromisified Called");
+
+    return new Promise(readTheFile)
+}
+
+setTimeOutPromisified();
+
+function callback(){
+    console.log("timer is done")
+}
+
+setTimeOutPromisified().then(callback)
+
+console.log("------end of the file-----")
