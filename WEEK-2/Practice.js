@@ -1,3 +1,172 @@
+// # JavaScript Asynchronous Patterns & File Operations – Notes
+
+// ---
+
+// ## 1. setTimeout and setInterval
+
+// - **setTimeout**: Schedules a function to run once after a delay.
+//   ```javascript
+//   setTimeout(() => { console.log("hi") }, 1000); // Runs after 1 second
+//   ```
+
+// - **setInterval**: Schedules a function to run repeatedly at fixed intervals.
+//   ```javascript
+//   setInterval(() => { console.log("tick") }, 1000); // Runs every second
+//   ```
+
+// - **Chaining setTimeout for Sequential Delays**:
+//   Useful for running tasks in sequence with different delays.
+//   ```javascript
+//   setTimeout(() => {
+//     console.log("hi");
+//     setTimeout(() => {
+//       console.log("hello");
+//       setTimeout(() => {
+//         console.log("Hello there");
+//       }, 5000);
+//     }, 3000);
+//   }, 1000);
+//   ```
+
+// ---
+
+// ## 2. Promisifying setTimeout
+
+// - **Promisified setTimeout**: Allows use with `.then()` or `await` for cleaner async code.
+//   ```javascript
+//   function setTimeoutPromisified(ms) {
+//     return new Promise(resolve => setTimeout(resolve, ms));
+//   }
+
+//   setTimeoutPromisified(3000).then(() => console.log("3 seconds have passed"));
+//   ```
+
+// ---
+
+// ## 3. File Operations with fs
+
+// - **Reading a File (Callback Style)**:
+//   ```javascript
+//   const fs = require("fs");
+//   fs.readFile("a.txt", "utf-8", (err, data) => {
+//     if (err) { /* handle error */ }
+//     else { console.log(data); }
+//   });
+//   ```
+
+// - **Promisifying fs.readFile**:
+//   ```javascript
+//   function readFilePromisified(filePath) {
+//     return new Promise((resolve, reject) => {
+//       fs.readFile(filePath, "utf-8", (err, data) => {
+//         if (err) reject(err);
+//         else resolve(data);
+//       });
+//     });
+//   }
+
+//   readFilePromisified("a.txt")
+//     .then(data => console.log(data))
+//     .catch(err => console.error(err));
+//   ```
+
+// - **Writing to a File (Async/Await with fs.promises)**:
+//   ```javascript
+//   const fs = require("fs").promises;
+//   async function writeToFile(filename, content) {
+//     try {
+//       await fs.writeFile(filename, content, 'utf-8');
+//       console.log("File has been written Successfully");
+//     } catch (error) {
+//       console.log("Error Writing to file: ", error);
+//     }
+//   }
+//   ```
+
+// ---
+
+// ## 4. Cleaning a File (Trimming Whitespace)
+
+// - **Callback Style**:
+//   ```javascript
+//   function cleanFile(filePath, cb) {
+//     fs.readFile(filePath, "utf-8", (err, data) => {
+//       data = data.trim();
+//       fs.writeFile(filePath, data, cb);
+//     });
+//   }
+//   ```
+
+// - **Promise Style**:
+//   ```javascript
+//   function cleanFile(filePath) {
+//     return new Promise(resolve => {
+//       fs.readFile(filePath, "utf-8", (err, data) => {
+//         data = data.trim();
+//         fs.writeFile(filePath, data, resolve);
+//       });
+//     });
+//   }
+//   ```
+
+// ---
+
+// ## 5. Real-Time Counters and Clocks
+
+// - **Counter with setInterval**:
+//   ```javascript
+//   let counter = 0;
+//   setInterval(() => {
+//     counter++;
+//     console.log(counter);
+//   }, 1000);
+//   ```
+
+// - **Counter with Recursive setTimeout**:
+//   ```javascript
+//   let counter = 0;
+//   function updateCounter() {
+//     counter++;
+//     console.log(counter);
+//     setTimeout(updateCounter, 1000);
+//   }
+//   updateCounter();
+//   ```
+
+// - **Digital Clock (24h & 12h format)**:
+//   ```javascript
+//   function updateClock() {
+//     const now = new Date();
+//     // Format hours, minutes, seconds
+//     // Print both 24-hour and 12-hour formats
+//     setTimeout(updateClock, 1000);
+//   }
+//   updateClock();
+//   ```
+
+// ---
+
+// ## 6. Error Handling
+
+// - Always check for errors when reading/writing files.
+// - Use try/catch with async/await for better error management.
+
+// ---
+
+// ## 7. Interview Tips
+
+// - Understand callback vs promise vs async/await patterns.
+// - Be able to convert callback-based APIs to promises.
+// - Know how to handle file operations and errors in Node.js.
+// - Practice writing timers and real-time updating functions.
+// - Be ready to explain event loop, call stack, and async flow in JavaScript.
+
+// ---
+
+
+
+
+
 // setTimeout(function(){
 //     console.log("hi")
 //     setTimeout(function (){
