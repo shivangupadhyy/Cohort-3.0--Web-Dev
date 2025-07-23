@@ -365,28 +365,116 @@
 // updateClock()
 
 
-console.log("-----top of the file------")
+// console.log("-----top of the file------")
 
-function readTheFile(resolve){
-    console.log("readTheFile Called");
-    setTimeout(function(){
-        console.log("callback based settimeout completed")
-        resolve()
-    },3000)
+// function readTheFile(resolve){
+//     console.log("readTheFile Called");
+//     setTimeout(function(){
+//         console.log("callback based settimeout completed")
+//         resolve()
+//     },3000)
+// }
+
+// function setTimeOutPromisified(filename){
+//     console.log("setTimeoutPromisified Called");
+
+//     return new Promise(readTheFile)
+// }
+
+// setTimeOutPromisified();
+
+// function callback(){
+//     console.log("timer is done")
+// }
+
+// setTimeOutPromisified().then(callback)
+
+// console.log("------end of the file-----")
+
+
+
+//hard problems
+
+// function wait(n){
+//     let p = new Promise((resolve) =>{
+//         setTimeout(()=>{
+//             resolve();
+
+//             console.log("1000")
+//         }, n *1000)
+//     })
+
+//     return p;
+// }
+
+// wait (5)
+
+//Q2 
+
+// function sleep(ms){
+//     return new Promise((resolve) =>{
+//         let startTime = new Date().getTime();
+//         while(new Date().getTime() < startTime + ms)
+//             resolve();
+//     })
+// }
+
+// sleep(5000)
+
+// function wait1(t){
+//     return new Promise((resolve)=>{
+//         setTimeout(resolve,t*1000)
+//     })
+// }
+
+// function wait2(t){
+//     return new Promise((resolve)=>{
+//         setTimeout(resolve, t*1000)
+//     })
+// }
+// function wait3(t){
+//     return new Promise((resolve)=>{
+
+//         setTimeout(resolve, t*1000)
+//     })
+// }
+
+// async function calculateTime(t1, t2, t3) {
+//     const startTime = Date.now()
+
+//     await Promise.all([wait1(t1), wait2(t2), wait3(t3)])
+
+//     const totalTime = Date.now() - startTime;
+//     return totalTime;
+// }
+
+
+// calculateTime(1, 3, 10)
+
+
+// class Promise2{
+//     constructor(fn){
+//         function afterDone(){
+//             this.resolve();
+//         }
+//         fn(afterDone)
+//     }
+//     then(callBack){
+//         this.resolve = callBack;
+//     }
+// }
+
+// the real opeeration that we want to prmisfy
+
+function doAsyncOp(resolve){
+    setTimeout(resolve, 3000) // olf , callback based function
 }
 
-function setTimeOutPromisified(filename){
-    console.log("setTimeoutPromisified Called");
+const  p = new Promise(doAsyncOp)
 
-    return new Promise(readTheFile)
+function callBack(){
+    console.log("3 seconds passed")
 }
 
-setTimeOutPromisified();
 
-function callback(){
-    console.log("timer is done")
-}
-
-setTimeOutPromisified().then(callback)
-
-console.log("------end of the file-----")
+p.then(callBack)
