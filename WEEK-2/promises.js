@@ -64,8 +64,59 @@
 
 // setTimeOutPromisified().then(main);
 
-function main(){
-    console.log("hello world")
+// function main(){
+//     console.log("hello world")
+// }
+// let p = new Promise(main);
+// console.log(p)
+
+// callback hell , reject, and async and await
+
+// function setTimeOutPromisified(duration){
+//     return new Promise((resolve)=>{
+//         setTimeout(resolve, duration)
+//     })
+// }
+
+
+// function callBack(){
+//     console.log("3 seconds has passed")
+// }
+
+// setTimeOutPromisified(3000).then(callBack)
+
+// function setTimeOutPromisified(ms){
+//     return new Promise(resolve =>setTimeout(resolve, ms))
+// }
+
+// async function solve(){
+//     await setTimeOutPromisified(1000)
+//     console.log("hi");
+//     await setTimeOutPromisified(3000)
+//     console.log("hello")
+//     await setTimeOutPromisified(5000)
+//     console.log("hello there")
+// }
+
+// solve()
+
+// console.log("after solve function")
+const fs = require("fs")
+function readFileAsync(){
+    return new Promise(function(resolve, reject) {
+        fs.readFile("a.txt", "utf-8", function(err, data){
+            if(err){
+                console.log("Error occured ")
+            }else{
+                resolve(data)
+            }
+        })
+    })
 }
-let p = new Promise(main);
-console.log(p)
+
+readFileAsync()
+.then(function(x){
+    console.log("files has been found " + x)
+}).catch(function(e){
+    console.log(e)
+})

@@ -12,16 +12,33 @@
 
 // module.exports = isAnagram;
 
-function findLargestElement(numbers){
-    let max = numbers[0]
+// function findLargestElement(numbers){
+//     let max = numbers[0]
 
-    for(let i=1; i<numbers.length; i++){
-        if(numbers[i]>max)
-            max = numbers[i];
+//     for(let i=1; i<numbers.length; i++){
+//         if(numbers[i]>max)
+//             max = numbers[i];
         
-    }
-    // console.log(max)
-    return max
-}
+//     }
+//     // console.log(max)
+//     return max
+// }
 
-console.log(findLargestElement([5, 9, 10, 8]));
+// console.log(findLargestElement([5, 9, 10, 8]));
+
+// function countVowels(str){
+//     const vowels = 'aeiouAEIOU'
+//     let count = 0;
+//     for(let char of str){
+//         if(vowels.includes(char)){
+//             count++
+//         }
+//     }
+//     return count;
+// }
+
+// console.log(countVowels("Shivang"))
+
+function isPalindrome(str){
+    
+}

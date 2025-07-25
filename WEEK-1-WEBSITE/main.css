@@ -1,0 +1,39 @@
+/* .container{
+    background-color: red;
+    width: 1200px;
+    margin: 0px auto;
+}
+.content{
+    height: 500px;
+}
+.vertical-center{
+    background-color: yellow;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.content{
+    display: flex;
+    height: 50px;
+    margin: 0 150px;
+}
+
+.left{
+    flex-grow: 1;
+    background-color: red;
+    font-size: x-large;
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+}
+
+.right{
+    flex-grow: 2;
+    background-color: blue;
+    font-size: x-large;
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+}
