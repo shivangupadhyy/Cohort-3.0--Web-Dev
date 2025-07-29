@@ -18,16 +18,17 @@
         const inputval = document.querySelector("input")
         const value = inputval.value;
         const div = document.createElement("div")
-        div.setAttribute("id", ctr)
+        div.setAttribute("id", "todo-"+ ctr)
         div.innerHTML = "<div>" + value + "</div><button onClick='deleteTodo(" + ctr + ")'> Delete Todo </button>";
         const list = document.querySelector("body");
         list.appendChild(div);
         ctr = ctr + 1;
-    }
+        
+    } 
 
     function deleteTodo(index){
         console.log("delete todo")
-        const element = document.getElementById(index)
+        const element = document.getElementById("todo-"+index)
         element.parentNode.removeChild(element)
 
     }

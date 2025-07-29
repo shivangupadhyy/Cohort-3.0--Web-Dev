@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advance Todo</title>
+</head>
+<body>
+      <h1>Todo list</h1>
+  <div id="todos">
+    <div id="todo-1">
+      <h4>1. Take class</h4>
+      <button onclick="deleteTodo(1)">Delete</button>
+    </div>
+    <div id="todo-2">
+      <h4>2. Go out to eat</h4>
+      <button onclick="deleteTodo(2)">Delete</button>
+    </div>
+  </div>
+  <div>
+    <input id="inp" type="text">
+    <button onclick="addTodo()">Add Todo</button>
+  </div>
+</body>
+<script>
+    let ctr = 3;
+    function addTodo(){
+        const value = document.querySelector("input").value.trim();
+
+        if(value ===""){
+            alert("Please Enter the Todo")
+        }
+
+        const parentEl = document.getElementById("todos");
+        //create new todo div
+        const newTodo = document.createElement("div");
+        newTodo.setAttribute("id", "todo-"+ctr)
+
+        //create new heading element
+        const newHeading = document.createElement("h4");
+        newHeading.textContent = ctr + '.' + value;
+
+        const newButton = document.createElement("button");
+        newButton.textContent = "Delete";
+        newButton.setAttribute("onClick", "deleteTodo("+ ctr+")");
+
+        newTodo.appendChild(newHeading)
+        newTodo.appendChild(newButton);
+        parentEl.appendChild(newTodo)
+
+        ctr++;
+
+        value="";
+
+
+    }
+
+    function deleteTodo(index){
+      const element = document.getElementById("todo-" +index);
+      if(element){
+        element.parentNode.removeChild(element);
+      }
+    }
+</script>
+</html>
