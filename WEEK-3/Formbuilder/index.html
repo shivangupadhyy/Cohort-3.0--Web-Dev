@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div class="container-fluid">
+   <div class="card">
+    <h2>Form Builder</h2>
+    <label for="FieldType">Select Field Type</label>
+    <select id="FieldType">
+        <option value="Text">Text Input</option>
+        <option value="checkbox">CheckBox</option>
+        <option value="radio">Radio Button</option>
+        <option value="select">DropDown</option>
+    </select>
+
+    <label for="fieldLabel">Field Label</label>
+    <input type=" text" placeholder="Enter field label" id="fieldLabel">
+    
+    <button onclick="addField()">Add Field</button>
+   </div>
+
+   <!-- form Preview -->
+    <div class="card form-preview">
+        <h2>Form Preview</h2>
+        <form id="formPreview"></form>
+    </div>
+
+   </div>
+</body>
+<script>
+    let fieldId = 0;
+    function addField(){
+        const type = document.getElementById("fieldType").value;
+        const labelText = document.getElementById("fieldLabel").value.trim();
+        const form = document.getElementById("formPreview");
+
+        if(!labelText){
+            alert("Please Enter a label");
+            return;
+        }
+        fieldId++
+        const wrapper = document.createElement("div");
+        wrapper.className = "field-wrapper";
+
+        const label = document.createElement("label");
+        label.textContent = labelText;
+        label.setAttribute('for', `field_${fieldId}`);
+        wrapper.appendChild(label);
+
+        let input;
+        switch(type){
+            case "text":
+                input = document.createElement("input");
+                input.type = "text";
+                break;
+            
+            case "checkbox":
+                input = document.createElement("input");
+                input.type = "checkbox";
+                break;
+
+            case "radio":
+                input = document.createElement("input");
+                input.type = "radio"
+                break;
+              
+            case "select":
+                input = document.createElement("select");
+                ["option 1", "option 2", "option 3"].forEach(optText =>{
+                    const opt = document.createElement("option");
+                    opt.value = optText.toLowerCase().replace(/\s/g, '');
+                    opt.innerText = optText;
+                    input.appendChild(opt)
+                })   ;
+                break;
+              
+        }
+
+        input.id = `field_${fieldId}`;
+        input.name = `field_${fieldId}`;
+        wrapper.appendChild(input);
+        form.appendChild(wrapper)
+
+        document.getElementById("fieldLabel").value = '';
+        
+    }
+</script>
+</html>
