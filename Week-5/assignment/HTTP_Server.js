@@ -40,4 +40,13 @@ app.get('/subtract', (req, res)=>{
     })
 })
 
+app.get('/add/:firstArg/:secondArg', (req, res)=>{
+    const a = parseInt(req.params.firstArg);
+    const b = parseInt(req.params.secondArg);
+
+    res.json({
+        ans : a + b
+    })
+})
+
 app.listen(3000)

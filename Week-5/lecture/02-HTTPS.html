@@ -9,6 +9,7 @@
 <body>
     Linkdn
     <div id="posts"></div>
+    <button onclick="getPosts()">Fetch Latest Post</button>
 </body>
 <script>
 
@@ -27,6 +28,6 @@
             document.getElementById('posts').innerHTML += ("<div>"+" ->"+  arr[i].title +"</div>" )
         }
     }
-    getPosts()
+    
 </script>
 </html>
