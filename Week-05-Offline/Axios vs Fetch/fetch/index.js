@@ -43,4 +43,28 @@ function postData1(){
     .catch(error => console.error(error))
 }
 
+
+async function postData2(){
+    try{
+        const response = await fetch("https://jsonplaceholder.typicode.com/posts",{
+            method: "POST",
+            body:JSON.stringify({
+                title: "hello",
+                body: "Bar",
+                userId: 2,
+            }),
+            headers: {
+                "Content-type" : "application/json; charset=UTF-8",
+                "Authorization" : "Bearer my token",
+            },
+        });
+        const json = await response.json();
+        console.log(json);
+    }catch(error){
+        console.error(error);
+    }
+}
+
+
 postData1()
+postData2();
