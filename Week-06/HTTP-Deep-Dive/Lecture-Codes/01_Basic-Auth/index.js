@@ -1,4 +1,6 @@
 const express = require('express');
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = "randomshivayu"
 const app = express();
 
 app.use(express.json());
@@ -48,8 +50,10 @@ app.post('/signin', (req, res)=>{
     const foundUser = user.find(user => user.username === username && user.password === password)
 
     if(foundUser){
-        const token = generateToken();
-        foundUser.token = token;
+        const token = jwt.sign({
+            username: username
+        }, JWT_SECRET)// convert therir unsername over to a jwt
+        // foundUser.token = token;
         res.json({
             token : token,
             message : "You have signed in succesfully!"
@@ -61,5 +65,35 @@ app.post('/signin', (req, res)=>{
     }
     console.log(user)
 })
+
+app.get('/me', (req, res)=>{
+    //get the token from the request headers
+    const token  = req.headers.token;
+    const decodeInfo = jwt.verify(token, JWT_SECRET);//
+    // check if the token is present or not
+    const username = decodeInfo.username;
+
+    if(!token){
+       return res.json({
+            message: "Token not found!"
+        });
+    }
+
+
+    const foundUser = user.find(user =>user.username === username);
+
+    if(foundUser){
+        res.json({
+            username : foundUser.username,
+            password : foundUser.password
+        });
+    }else{
+        //send a response to the client that the token is invalid
+        return res.json({
+            message: "Invalid token!"
+        })
+    }
+})
+
 
 app.listen(3000);// that the ensure http server is listening on the port 3000
