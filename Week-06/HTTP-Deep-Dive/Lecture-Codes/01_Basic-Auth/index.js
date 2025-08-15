@@ -10,16 +10,6 @@ app.use(express.json());
 // Create an array to store the users username and password
 const users = [];
 
-/*
-[
-    {
-        username: "Bharat",
-        password: "Bharat@123",
-        token: "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6" 
-    }
-]
-*/
-
 // Create a function to generate a token for the user
 function generateToken() {
 
