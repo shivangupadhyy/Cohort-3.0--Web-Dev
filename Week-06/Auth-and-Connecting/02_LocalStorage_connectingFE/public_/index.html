@@ -98,7 +98,7 @@
                 }
             })
 
-            const infoDiv = Document.getElementById("information");
+            const infoDiv = document.getElementById("Information");
 
             if(response.data.username){
                 infoDiv.innerText = `Username : ${response.data.username} and password : ${response.data.password}`;
@@ -119,7 +119,7 @@
                 alert("You have logged out!");
                 
                 // Clear the user information displayed on the page
-                document.getElementById("information").innerText = "";
+                document.getElementById("Information").innerText = "";
             }
   </script>
 </html>
