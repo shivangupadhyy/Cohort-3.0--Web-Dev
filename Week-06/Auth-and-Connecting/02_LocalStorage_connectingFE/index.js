@@ -15,6 +15,10 @@ function loggger(req, res, next) {
   next();
 }
 
+app.get('/', (req,res)=>{
+    res.sendFile(__dirname+ "/public_/index.html");
+})
+
 app.post("/signup", loggger, (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
