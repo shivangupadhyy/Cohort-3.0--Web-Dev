@@ -1,31 +1,38 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "ilove100xdevs";
-
+const JWT_SECRECT = "ilove100xdevs";
 const app = express();
 
 app.use(express.json());
 
+//create a array to store the users username and the password;
 const users = [];
 
-function loggger(req, res, next) {
-  // Log the request method to the console
+function logger(req, res, next) {
   console.log(`${req.method} request came`);
-  // Call the next middleware function
+
+  //call the next middleware function
   next();
 }
 
-app.get('/', (req,res)=>{
-    res.sendFile(__dirname+ "/public_/index.html");
-})
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public_/index.html");
+});
 
-app.post("/signup", loggger, (req, res) => {
+app.post("/signup", logger, (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
   if (users.find((user) => user.username === username)) {
     return res.json({
-      message: "You are already signed up!",
+      Message: "You have been already sign up!",
+    });
+  }
+  // Check if the username has at least 5 characters or not
+  if (username.length < 5) {
+    // Send a response to the client that the username should have at least 5 characters
+    return res.json({
+      message: "You need to have at least 5 users to sign up",
     });
   }
 
@@ -35,11 +42,11 @@ app.post("/signup", loggger, (req, res) => {
   });
 
   res.json({
-    message: "You have been signed up successfully!",
+    message: "you have been signup successfully!",
   });
 });
 
-app.post("/signin", loggger, (req, res) => {
+app.post("/signin", logger, (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
@@ -52,31 +59,30 @@ app.post("/signin", loggger, (req, res) => {
       {
         username: foundUser.username,
       },
-      JWT_SECRET
+      JWT_SECRECT
     );
 
     return res.json({
       token: token,
-      message: "You have been sigined successfully",
+      message: "you have been signin successfully!",
     });
   } else {
     res.json({
-      message: "Invalid username or password!",
+      message: "invalid credentials ",
     });
   }
 });
 
 function auth(req, res, next) {
   const token = req.headers.token;
-
   if (!token) {
-    return res.json({
+    res.json({
       message: "Token is missing!",
     });
   }
 
   try {
-    const decodedData = jwt.verify(token, JWT_SECRET);
+    const decodedData = jwt.verify(token, JWT_SECRECT);
 
     req.username = decodedData.username;
     next();
@@ -87,19 +93,20 @@ function auth(req, res, next) {
   }
 }
 
-app.get("/me", loggger, auth, (req, res) => {
+//Create a get request for the the me route
+app.get("/me", logger, auth, (req, res) => {
   const currentUser = req.username;
 
   const foundUser = users.find((user) => user.username === currentUser);
 
   if (foundUser) {
-    res.json({
+    return res.json({
       username: foundUser.username,
       password: foundUser.password,
     });
   } else {
-    res.json({
-      message: "invalid token!",
+    return res.json({
+      message: "user not found!",
     });
   }
 });
