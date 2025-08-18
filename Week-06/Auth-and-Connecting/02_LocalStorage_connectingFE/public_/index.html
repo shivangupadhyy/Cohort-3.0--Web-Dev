@@ -50,46 +50,44 @@
     </div>
   </body>
   <script>
-    async function signup() {
-      const username = document.getElementById("signup-username").value;
-      const password = document.getElementById("signup-password").value;
+   async function signup() {
+    const username = document.getElementById("signup-username").value;
+    const password = document.getElementById("signup-password").value;
 
-      try {
-        const response = await axios.post("http://localhost:3000/signup", {
-          username: username,
-          password: password,
-        });
+    try{
+    const response =   await axios.post("http://localhost:3000/signup",{
+      username,
+      password,
+    })
 
-        alert(response.data.message);
-      } catch (error) {
-        console.error("Error while signing up : ", error);
-      }
+    alert(response.data.message)
+   }catch(error){
+    console.error("Error while signing up: "+ error);
+   }
     }
 
-    async function signin() {
-      const username = document.getElementById("signin-username").value;
-      const password = document.getElementById("signin-password").value;
+   async function signin() {
+    const username  = document.getElementById("signin-username").value;
+    const password = document.getElementById("signin-password").value;
 
-      try {
-        const response = await axios.post("http://localhost:3000/signin", {
-          username,
-          password,
-        });
+    try{
+      const response = await axios.post("http://localhost:3000/signin",{
+        username,
+        password,
+      });
 
-        if (response.data.token) {
-          localStorage.setItem("token", response.data.token);
+      if(response.data.token){
+        localStorage.setItem("token", response.data.token);
+        alert(response.data.message);
 
-          alert(response.data.message);
-
-          getUserInfo();
-        } else {
-          alert(response.data.message);
-        }
-      } catch (error) {
-        console.error("Error while signing in: ", error);
+        getUserInfo();
+      }else{
+        alert(response.data.message)
       }
-    }  
-
+    }catch(error){
+      console.log(`error while signing in :  ${error}`)
+    }
+   }
     async function getUserInfo(){
         try{
             const response = await axios.get("http://localhost:3000/me",{
