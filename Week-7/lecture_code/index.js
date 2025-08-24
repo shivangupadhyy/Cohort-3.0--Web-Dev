@@ -52,12 +52,46 @@ if(response){
 
 })
 
-app.post('/todo',(req, res)=>{
+function auth(req, res, next){
+    const token = req.headers.token;
 
+    const response = jwt.verify(token, SECRET);
+
+    if(response){
+        req.userId = token.id;
+        next();
+    }else{
+        res.status(403).json({
+            message: "invalid creds"
+        })
+    }
+}
+
+app.post('/todo', auth, async(req, res)=>{
+    const userId = req.userId;
+    const title = req.body.title;
+    const done = req.body.done;
+
+    await TodoModel.create({
+        userId,
+        title,
+        done
+    })
+
+    res.json({
+        message: "Todo Created"
+    })
 })
 
-app.get('/todos',(req, res)=>{
+app.get('/todos', auth, async(req, res)=>{
+    const userId = req.userId;
 
+    const todos = await TodoModel.findOne({
+        userId
+    })
+    res.json({
+        todos
+    })
 })
 
 app.listen(3000)
