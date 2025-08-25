@@ -18,6 +18,8 @@ const JWT_SECRET = "ilove100xdev";
 // Import mongoose for MongoDB interaction
 const mongoose = require("mongoose");
 
+const z = require("zod")
+
 // Connect to the MongoDB Atlas cluster using mongoose
 mongoose.connect(
   "mongodb+srv://shivang14071993:4FfCt1jEXdf1M7OH@cluster0.rajcklb.mongodb.net/todo-app-week-7"
@@ -25,9 +27,26 @@ mongoose.connect(
 
 // Use express.json() middleware to automatically parse incoming JSON requests
 app.use(express.json());
-
+ 
 // Route for user signup (registration)
 app.post("/signup", async (req, res) => {
+
+    const requiredBody = z.object({
+        email: z.string().min(3).max(20).email(),
+        name: z.string().min(3).max(25),
+        password: z.string().min(3).max(30)
+
+    })
+
+    const parsedDataWithSuccess = requiredBody.safeParse(req.body);
+
+    if(!parsedDataWithSuccess.success){
+        res.json({
+            message: "incorrect format",
+            error: parsedDataWithSuccess.error
+        })
+        return
+    }
   // Extract email and password from the request body
    const email = req.body.email;
   const password = req.body.password;
