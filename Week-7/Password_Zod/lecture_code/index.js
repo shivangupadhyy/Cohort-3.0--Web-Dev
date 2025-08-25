@@ -1,6 +1,8 @@
 // Import the express framework for building web servers
 const express = require("express");
 
+const bcrypt = require("bcrypt");
+
 // Import the UserModel and TodoModel from the local db.js file (Mongoose models)
 const { UserModel, TodoModel } = require("./db");
 
@@ -18,7 +20,7 @@ const mongoose = require("mongoose");
 
 // Connect to the MongoDB Atlas cluster using mongoose
 mongoose.connect(
-  "mongodb+srv://shivang14071993:4FfCt1jEXdf1M7OH@cluster0.rajcklb.mongodb.net/todo-app"
+  "mongodb+srv://shivang14071993:4FfCt1jEXdf1M7OH@cluster0.rajcklb.mongodb.net/todo-app-week-7"
 );
 
 // Use express.json() middleware to automatically parse incoming JSON requests
@@ -27,22 +29,33 @@ app.use(express.json());
 // Route for user signup (registration)
 app.post("/signup", async (req, res) => {
   // Extract email and password from the request body
-  const email = req.body.email;
+   const email = req.body.email;
   const password = req.body.password;
-  // NOTE: This line should probably be 'const name = req.body.name;'
-  const name = req.body.password;
+  const name = req.body.name;
 
+  
+  try {
   // Create a new user in the database
+
+  const hassedPassword = await bcrypt.hash(password, 5);
+  console.log(hassedPassword)
   await UserModel.create({
     email: email,
-    password: password,
+    password: hassedPassword,
     name: name,
   });
+
 
   // Respond with a success message
   res.json({
     message: "you have been signUp successfully!",
   });
+  } catch (error) {
+    res.status(500).json({
+        message: `Duplication mail id are not allowed ${error}`
+    })
+  }
+  
 });
 
 // Route for user login (authentication)
@@ -54,14 +67,22 @@ app.post("/login", async(req, res) => {
     // Find a user in the database matching the provided credentials
     const response = await UserModel.findOne({
         email: email,
-        password: password,
     })
+
+    if(!response){
+        res.status(403).json({
+            message: "user does not exist inout db"
+        })
+        return
+    }
+
+    const passwordMatch = await bcrypt.compare(password, response.password)
 
     // Log the response for debugging
     console.log(response)
 
     // If user is found, generate a JWT token and respond with it
-    if(response){
+    if(passwordMatch){
         const token = jwt.sign({
             id:response._id.toString()
         }, JWT_SECRET)
