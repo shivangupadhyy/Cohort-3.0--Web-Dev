@@ -17,6 +17,8 @@ const Todo = new Schema({
     title: String,
     done: Boolean,
     userId: ObjectId,
+    createAt: { type: Date, default: Date.now},
+    deadline: {type: Date},
 });
 
 // Create Mongoose models for users and todos collections using the User and Todo schemas

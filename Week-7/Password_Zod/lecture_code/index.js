@@ -32,9 +32,9 @@ app.use(express.json());
 app.post("/signup", async (req, res) => {
 
     const requiredBody = z.object({
-        email: z.string().min(3).max(20).email(),
-        name: z.string().min(3).max(25),
-        password: z.string().min(3).max(30)
+        email: z.string().min(3).max(100).email(),
+        name: z.string().min(3).max(100),
+        password: z.string().min(5).max(100).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)
 
     })
 
