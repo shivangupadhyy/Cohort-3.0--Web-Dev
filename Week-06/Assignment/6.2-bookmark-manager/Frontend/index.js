@@ -20,19 +20,24 @@ function addBookmarkToDom(bookmark){
     console.log(bookmark.url)
     url.textContent = `${bookmark.url} (${bookmark.category})`;
 
+    const openButton = document.createElement('button');
+    openButton.textContent = 'Open in new tab';
+    openButton.addEventListener('click', ()=>{
+        window.open(bookmark.url)
+    })
+
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', ()=>{
         deleteBookmark(bookmark.id)
     })
 
-    const newTabButton = document.createElement('button');
-    newTabButton.textContent = 'Open in New Tab';
-    newTabButton
+   
 
     
 
     bookmarkItem.appendChild(url);
+    bookmarkItem.appendChild(openButton)
     bookmarkItem.appendChild(deleteButton);
     bookmarkList.appendChild(bookmarkItem)
 }
