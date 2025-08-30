@@ -5,13 +5,13 @@ let todos = []; //in memory space
 let currentId = 1;// counter for unique IDs
 
 // Function to get all todos
-export async function getAllTodo(res) {
+ async function getAllTodo(req,res) {
     // Respond with the entire todos array as JSON
     res.json(todos)
 }
 
 // Function to create a new todo
-export async function createTodo(req, res){
+ async function createTodo(req, res){
     // Extract 'task' from the request body
     const {task} = req.body;
     // If 'task' is missing, send a 400 error response
@@ -28,7 +28,7 @@ export async function createTodo(req, res){
 }
 
 // Function to update an existing todo
-export async function updateTodo(req, res) {
+ async function updateTodo(req, res) {
     // Extract 'id' from URL parameters and 'task' from request body
     const {id} = req.params;
     const {task} = req.body;
@@ -51,7 +51,7 @@ export async function updateTodo(req, res) {
 }
 
 // Function to delete a todo by its id
-export async function deleteTodoById(req, res) {
+ async function deleteTodoById(req, res) {
     // Extract 'id' from URL parameters
     const {id} = req.params;
     // Find the index of the todo with the given id
@@ -68,7 +68,7 @@ export async function deleteTodoById(req, res) {
 }
 
 // Function to search todos by a query string
-export async function searchTodo(req, res) {
+ async function searchTodo(req, res) {
     // Extract 'q' (query) from the request query parameters
     const {q} = req.query;
     // If 'q' is missing, send a 400 error response
@@ -81,4 +81,12 @@ export async function searchTodo(req, res) {
     );
     // Respond with the filtered todos
     res.json(filteredTodos);
+}
+
+module.exports = {
+    getAllTodo,
+    createTodo,
+    updateTodo,
+    deleteTodoById,
+    searchTodo
 }

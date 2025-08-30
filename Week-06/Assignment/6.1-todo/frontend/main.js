@@ -1,3 +1,4 @@
+
 const API_URL = 'http://localhost:3001/todos';
 
 document.addEventListener('DOMContentLoaded', ()=>{
@@ -8,7 +9,7 @@ function fetchTodo(){
     fetch(API_URL)
     .then(response => response.json())
     .then(todos =>{
-        todos.foreach(todo =>addTodoToDOM(todo))
+        todos.forEach(todo =>addTodoToDOM(todo))
     })
     .catch(error=> console.error(`Error fetching todos: ${error}`))
 }
@@ -29,8 +30,15 @@ function addTodoToDOM(todo){
         deleteTodo(todo.id);
     })
 
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit'
+    deleteButton.addEventListener('click', ()=>{
+        editTodo(todo.id, title)
+    })
+
     todoItem.appendChild(title)
     todoItem.appendChild(deleteButton)
+    todoItem.appendChild(editButton)
 
     todoList.appendChild(todoItem)
 }
@@ -60,6 +68,25 @@ document.getElementById('add-todo-btn').addEventListener('click',()=>{
     })
     .catch(error=> console.error('Error adding todo:', error))
 });
+
+function editTodo(id, titleElement){
+    const newTask = prompt("Edit your task", titleElement.textContent);
+
+    if(newTask && newTask.trim() !== ""){
+        fetch(`${API_URL}${id}`,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({task: newTask})
+        })
+        .then(response=> response.json())
+        .then(updatedTodo=>{
+            titleElement.textContent = updatedTodo.task
+        })
+        .catch(error => console.error(`Error updating Todo : ${error}`))
+    }
+}
 
 //delete a todo
 function deleteTodo(id){
