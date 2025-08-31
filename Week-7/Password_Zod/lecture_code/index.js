@@ -58,3 +58,88 @@ app.post("/signup", async (req, res) => {
     })
   }
 });
+
+
+app.post('/login', async(req,res)=>{
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const response = await UserModel.findOne({
+    email: email,
+  })
+
+  if(!response){
+    res.status(403).json({
+      message: "User Does not exist",
+    })
+    return
+  }
+
+  const passwordMatch = await bcrypt.compare(password, response.password)
+
+  console.log(response);
+
+  if(passwordMatch){
+    const token = jwt.sign({
+      id:response._id.toString()
+    }, JWT_SECRET)
+    res.json({
+      token: token,
+      message: "You have been Login successfully!"
+    })
+  }else{
+    res.status(403).json({
+      message: "invalid creds"
+    })
+  }
+})
+
+function auth(req, res, next){
+  const token = req.headers.token;
+
+  const response = jwt.verify(token, JWT_SECRET)
+
+  console.log(response)
+
+  if(response){
+    req.userId= response.id
+    next()
+  }else{
+    res.status(403).json({
+      message: "Invalid creds",
+    })
+  }
+}
+
+app.post('/todos', auth ,async(req, res)=>{
+  const userId = req.userId;
+
+  const title = req.body.title;
+  const done = req.body.done;
+
+
+  await TodoModel.create({
+    userId,
+    title,
+    done
+
+  })
+
+  res.json({
+    message: "Todo Have been Created!"
+  })
+})
+
+app.get('/todos', auth, async(req, res)=>{
+  const userId = req.userId;
+  const todos = await TodoModel.findOne({
+    userId
+  })
+
+  res.json({
+    todos
+  })
+})
+
+
+app.listen(3000)
