@@ -11,9 +11,11 @@ userRouter.post('/login',(req, res)=>{
 })
 
 userRouter.get('/purchases', (req, res)=>{
-
+res.json({
+   
+})
 })
 
 module.exports = {
     userRouter: userRouter
-}
+}   
