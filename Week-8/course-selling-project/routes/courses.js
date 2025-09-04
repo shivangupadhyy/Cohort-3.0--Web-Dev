@@ -4,7 +4,7 @@ const {PurchaseModel} = require("../db")
 
 const courseRouter = Router();
 
-courseRouter.post('purchase', (req, res)=>{
+courseRouter.post('/purchase', (req, res)=>{
 
 })
 
