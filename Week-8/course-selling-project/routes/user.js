@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const {UserModel,PurchaseModel, CourseModel} = require("../db");
 const {userMiddleware} = require('../middleware/user');
-const JWT_USER_PASSWORD = "ilove100xdevsPassword";
+const {JWT_USER_PASSWORD} = require("../config")
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const zod = require('zod');

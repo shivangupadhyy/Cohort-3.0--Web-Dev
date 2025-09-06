@@ -1,15 +1,14 @@
 const jwt  = require("jsonwebtoken");
 
-const  JWT_SCECRET  =  'ilove100xdevs'
-
+const {JWT_USER_PASSWORD} = require("../config")
 
 function userMiddleware(req, res, next){
-    const token  = req. headers.authorization;
+    const token  = req. headers.token;
 
     try{
-        const decode = jwt.verify(token,JWT_SCECRET );
+        const decode = jwt.verify(token,JWT_USER_PASSWORD );
 
-        req.userId = decode.indexOf;
+        req.userId = decode.id;
         next();
     }catch (error){
         return res.status(403).json({

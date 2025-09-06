@@ -5,8 +5,7 @@ const { AdminModel, CourseModel } = require("../db");
 
 const { adminMiddleware } = require("../middleware/admin");
 
-const JWT_ADMIN_PASSWORD = "ilove100xadminpassword";
-
+const {JWT_ADMIN_PASSWORD}= require('../config')
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const zod = require("zod");
