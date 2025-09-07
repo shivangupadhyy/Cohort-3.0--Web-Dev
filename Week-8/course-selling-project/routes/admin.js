@@ -130,7 +130,55 @@ adminRouter.post("/course", adminMiddleware,async(req, res) => {
   })
 });
 
-adminRouter.put("/course", (req, res) => {});
+adminRouter.put("/course", adminMiddleware, async(req, res) => {
+  const adminId = req.adminId;
+
+  const requireBody = zod.object({
+    courseId : zod.string().min(5),
+    title: zod.string().min(3).optional(),
+    description: zod.string().min(5).optional(),
+    imageUrl: zod.string().min(5).url().optional(),
+    price: zod.number().positive().optional(),
+  })
+
+  const parseDataWithSuccess = requireBody.safeParse(req.body);
+
+  if(!parseDataWithSuccess.success){
+    return res.json({
+      message: "Incorrect data Format",
+      error: parseDataWithSuccess.error,
+    })
+  }
+
+  const {title, description, imageUrl, price} = req.body;
+
+  const course = await CourseModel.findOne({
+    _id: courseId,
+    creatorId: adminId,
+  })
+
+  if(!course){
+    return res.status(404).json({
+      message : "Course not Found!",
+    })
+  }
+
+  await CourseModel.updateOne({
+    id: courseId,
+    creatorId: adminId,
+  },
+  {
+    title: title || course.title,
+    description: description || course.description,
+    imageUrl: imageUrl || course.imageUrl,
+    price: price || course.price,
+  }
+);
+
+res.status(200).json({
+  message : "Course Updated!",
+  })
+});
 
 adminRouter.get("/course/bulk", (req, res) => {});
 
