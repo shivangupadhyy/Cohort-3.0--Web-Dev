@@ -95,7 +95,40 @@ adminRouter.post("/signin", async (req, res) => {
   }
 });
 
-adminRouter.post("/course", (req, res) => {});
+adminRouter.post("/course", adminMiddleware,async(req, res) => {
+  const adminId = req.adminId;
+
+  const requireBody = zod.object({
+    title: zod.string().min(3),
+    description: zod.string().min(10),
+    imageUrl : zod.string().url(),
+    price: zod.number().positive(),
+  })
+
+  const parseDataWithSuccess = requireBody.safeParse(req.body);
+
+  if(!parseDataWithSuccess.success){
+    return res.json({
+      message: "Incorrect data format",
+      error: parseDataWithSuccess.error,
+    })
+  }
+
+  const {title, description, imageUrl, price} = req.body;
+
+  const course = await CourseModel.create({
+    title,
+    description,
+    imageUrl,
+    price,
+    creatorId: adminId,
+  })
+
+  res.status(200).json({
+    message: "Course created!",
+    courseId : course._id,
+  })
+});
 
 adminRouter.put("/course", (req, res) => {});
 
