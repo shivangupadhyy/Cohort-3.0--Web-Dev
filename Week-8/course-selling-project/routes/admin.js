@@ -5,7 +5,7 @@ const { AdminModel, CourseModel } = require("../db");
 
 const { adminMiddleware } = require("../middleware/admin");
 
-const {JWT_ADMIN_PASSWORD}= require('../config')
+const { JWT_ADMIN_PASSWORD } = require("../config");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const zod = require("zod");
@@ -95,26 +95,26 @@ adminRouter.post("/signin", async (req, res) => {
   }
 });
 
-adminRouter.post("/course", adminMiddleware,async(req, res) => {
+adminRouter.post("/course", adminMiddleware, async (req, res) => {
   const adminId = req.adminId;
 
   const requireBody = zod.object({
     title: zod.string().min(3),
     description: zod.string().min(10),
-    imageUrl : zod.string().url(),
+    imageUrl: zod.string().url(),
     price: zod.number().positive(),
-  })
+  });
 
   const parseDataWithSuccess = requireBody.safeParse(req.body);
 
-  if(!parseDataWithSuccess.success){
+  if (!parseDataWithSuccess.success) {
     return res.json({
       message: "Incorrect data format",
       error: parseDataWithSuccess.error,
-    })
+    });
   }
 
-  const {title, description, imageUrl, price} = req.body;
+  const { title, description, imageUrl, price } = req.body;
 
   const course = await CourseModel.create({
     title,
@@ -122,62 +122,63 @@ adminRouter.post("/course", adminMiddleware,async(req, res) => {
     imageUrl,
     price,
     creatorId: adminId,
-  })
+  });
 
   res.status(200).json({
     message: "Course created!",
-    courseId : course._id,
-  })
+    courseId: course._id,
+  });
 });
 
-adminRouter.put("/course", adminMiddleware, async(req, res) => {
+adminRouter.put("/course", adminMiddleware, async (req, res) => {
   const adminId = req.adminId;
 
   const requireBody = zod.object({
-    courseId : zod.string().min(5),
+    courseId: zod.string().min(5),
     title: zod.string().min(3).optional(),
     description: zod.string().min(5).optional(),
     imageUrl: zod.string().min(5).url().optional(),
     price: zod.number().positive().optional(),
-  })
+  });
 
   const parseDataWithSuccess = requireBody.safeParse(req.body);
 
-  if(!parseDataWithSuccess.success){
+  if (!parseDataWithSuccess.success) {
     return res.json({
       message: "Incorrect data Format",
       error: parseDataWithSuccess.error,
-    })
+    });
   }
 
-  const {title, description, imageUrl, price} = req.body;
+  const { title, description, imageUrl, price } = req.body;
 
   const course = await CourseModel.findOne({
     _id: courseId,
     creatorId: adminId,
-  })
+  });
 
-  if(!course){
+  if (!course) {
     return res.status(404).json({
-      message : "Course not Found!",
-    })
+      message: "Course not Found!",
+    });
   }
 
-  await CourseModel.updateOne({
-    id: courseId,
-    creatorId: adminId,
-  },
-  {
-    title: title || course.title,
-    description: description || course.description,
-    imageUrl: imageUrl || course.imageUrl,
-    price: price || course.price,
-  }
-);
+  await CourseModel.updateOne(
+    {
+      id: courseId,
+      creatorId: adminId,
+    },
+    {
+      title: title || course.title,
+      description: description || course.description,
+      imageUrl: imageUrl || course.imageUrl,
+      price: price || course.price,
+    }
+  );
 
-res.status(200).json({
-  message : "Course Updated!",
-  })
+  res.status(200).json({
+    message: "Course Updated!",
+  });
 });
 
 adminRouter.get("/course/bulk", (req, res) => {});
