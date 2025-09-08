@@ -1,4 +1,5 @@
 // Import mongoose for MongoDB object modeling
+require('dotenv').config()
 const mongoose = require('mongoose');
 
 // Get the Schema constructor from mongoose
@@ -11,7 +12,7 @@ const ObjectId = mongoose.ObjectId;
 console.log("Connected to db")
 
 // Connect to your MongoDB Atlas cluster and database
-mongoose.connect("mongodb+srv://shivang14071993:4FfCt1jEXdf1M7OH@cluster0.rajcklb.mongodb.net/coursera-app")
+mongoose.connect(process.env.MONGO_URL)
 
 // Define the schema for regular users
 const userSchema = new Schema({
