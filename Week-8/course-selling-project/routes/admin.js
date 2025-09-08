@@ -10,6 +10,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const zod = require("zod");
 
+
 adminRouter.post("/signup", async (req, res) => {
   const requireBody = zod.object({
     email: zod.string().email().min(5), // email must be valid format and at least 5 character
@@ -182,7 +183,18 @@ adminRouter.put("/course", adminMiddleware, async (req, res) => {
   });
 });
 
-adminRouter.get("/course/bulk", (req, res) => {});
+adminRouter.get("/course/bulk",adminMiddleware, async(req, res) => {
+
+  const adminId = req.adminId;
+
+  const courses = await CourseModel.findOne({
+    creatorId : adminId,
+  })
+
+  res.json({
+    courses
+  })
+});
 
 module.exports = {
   adminRouter: adminRouter,
