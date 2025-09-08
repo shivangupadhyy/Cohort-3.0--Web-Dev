@@ -140,7 +140,7 @@ adminRouter.put("/course", adminMiddleware, async (req, res) => {
     title: zod.string().min(3).optional(),
     description: zod.string().min(5).optional(),
     imageUrl: zod.string().min(5).url().optional(),
-    price: zod.number().positive().optional(),
+    price: zod.number().nonnegative().optional(),
   });
 
   const parseDataWithSuccess = requireBody.safeParse(req.body);
@@ -167,7 +167,7 @@ adminRouter.put("/course", adminMiddleware, async (req, res) => {
 
   await CourseModel.updateOne(
     {
-      id: courseId,
+      _id: courseId,
       creatorId: adminId,
     },
     {
@@ -187,7 +187,7 @@ adminRouter.get("/course/bulk",adminMiddleware, async(req, res) => {
 
   const adminId = req.adminId;
 
-  const courses = await CourseModel.findOne({
+  const courses = await CourseModel.find({
     creatorId : adminId,
   })
 
