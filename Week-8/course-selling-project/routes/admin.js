@@ -151,7 +151,7 @@ adminRouter.put("/course", adminMiddleware, async (req, res) => {
     });
   }
 
-  const { title, description, imageUrl, price } = req.body;
+  const { courseId, title, description, imageUrl, price } = req.body;
 
   const course = await CourseModel.findOne({
     _id: courseId,
