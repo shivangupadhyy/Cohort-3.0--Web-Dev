@@ -102,12 +102,14 @@ userRouter.get('/purchases', userMiddleware,async(req, res)=>{
             message: "No purchase found",
         })
     }
+        const purchaseCourseInfo = purchases.map((purchase)=> purchase.courseId)
+
 
     res.json({
-        purchases
+        purchases,
+        purchaseCourseInfo,
     })
 
-    // const purchaseCourseInfo = purchases.map((purchase)=> purchases.courseId)
 
     
 })
