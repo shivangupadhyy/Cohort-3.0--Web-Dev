@@ -103,7 +103,11 @@ userRouter.get('/purchases', userMiddleware,async(req, res)=>{
         })
     }
 
-    const purchaseCourseInfo = purchases.map((purchase)=> purchases.courseId)
+    res.json({
+        purchases
+    })
+
+    // const purchaseCourseInfo = purchases.map((purchase)=> purchases.courseId)
 
     
 })
