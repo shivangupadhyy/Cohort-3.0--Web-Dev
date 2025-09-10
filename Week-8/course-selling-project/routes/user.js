@@ -102,6 +102,10 @@ userRouter.get('/purchases', userMiddleware,async(req, res)=>{
             message: "No purchase found",
         })
     }
+
+    // const courseData = await CourseModel.find({
+    //     _id : {$in : purchases.map(x => x.courseId)}
+    // })
         const purchaseCourseInfo = purchases.map((purchase)=> purchase.courseId)
 
 
