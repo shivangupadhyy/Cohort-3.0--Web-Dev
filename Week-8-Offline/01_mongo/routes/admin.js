@@ -60,10 +60,61 @@ adminRouter.post("/courses", adminMiddleware, async (req, res) => {
     });
 });
 
+adminRouter.put('/courses',adminMiddleware, async(req, res)=>{
+    const admin = req.adminId;
+
+    const courseId = req.body.courseId;
+    const title = req.body.title;
+    const description =req.body.description;
+    const imageUrl  = req.body.imageUrl;
+    const price = req.body.price;
+
+    const course = await CourseModel.findById(courseId);
+
+    if(!course){
+        return res.status(404).json({
+            message : "Course not found",
+        })
+    }
+
+    await CourseModel.updateOne({
+        title : title || course/title,
+        description : description || course.description,
+        imageUrl : imageUrl || course.imageUrl,
+        price: price || course.price,
+    })
+
+    res.status(200).json({
+        message: "Course Updated Successfully!"
+    })
+})
+
+
+adminRouter.delete('/courses', adminMiddleware, async(req, res)=>{
+    const courseId = req.body.courseId;
+
+    const course = await CourseModel.findById(courseId);
+
+    if(!course){
+        return res.status(404).json({
+            message: "Course not found!",
+        })
+    }
+
+    await CourseModel.deleteOne({
+        _id: courseId
+    })
+
+    res.json({
+        message: "Courses has been deleted successfully",
+    })
+})
 //  Get all courses
 adminRouter.get("/courses", adminMiddleware, async (req, res) => {
     const courses = await CourseModel.find({});
     res.status(200).json({ courses });
 });
+
+
 
 module.exports = adminRouter;
