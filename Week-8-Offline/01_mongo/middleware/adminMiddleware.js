@@ -1,23 +1,23 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+
 const JWT_SECRET = "ilove100xdev";
 
-function adminMiddleware(req, res, next){
-    const token = req.headers.token;
+// Middleware for authenticating ADMINS
+function adminMiddleware(req, res, next) {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+        return res.status(401).json({ message: "Token missing!" });
+    }
 
-    try{
-        const decodedvalue = jwt.verify(token, JWT_SECRET);
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
 
-        if(decodedvalue.username){
-            next()
-        }else{
-            res.status(403).json({
-                message : "You are not authenticated",
-            })
-        }
-    }catch{
-        res.status(401).json({
-            message : "Incorrect Inputs",
-        })
+        // Attach adminId to request object
+        req.adminId = decoded.id;
+
+        next();
+    } catch {
+        return res.status(401).json({ message: "Invalid or expired token!" });
     }
 }
 

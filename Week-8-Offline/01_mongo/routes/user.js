@@ -1,144 +1,82 @@
-const express = require('express');
-const { UserModel, CourseModel } = require('../db/db');
-const zod = require("zod")
-const bcrypt = require("bcrypt")
+const express = require("express");
 const jwt = require("jsonwebtoken");
-const userMiddleware = require('../middleware/userMiddleware');
-const JWT_SECRET = "ilove100xdev"
-const app = express();
-app.use(express.json());
+const zod = require("zod"); // ✅ input validation library
+const userMiddleware = require("../middlewares/userMiddleware");
+const { UserModel, CourseModel } = require("../db/db");
 
 const userRouter = express.Router();
+const JWT_SECRET = "ilove100xdev";
 
+// Zod schema for input validation
+const signupSchema = zod.object({
+    username: zod.string().min(3), // at least 3 chars
+    password: zod.string().min(6)  // at least 6 chars
+});
 
-userRouter.post('/signup', async(req, res)=>{
+//  User Signup
+userRouter.post("/signup", async (req, res) => {
+    const { username, password } = req.body;
 
-    const requireBody = zod.object({
-        username : zod.string().min(5),
-        password : zod.string().min(5),
-    })
-
-    const paresDataWithSuccess = requireBody.safeParse(req.body);
-
-    if(!paresDataWithSuccess.success){
-        res.json({
-            message: "Invalid credentails",
-            error : paresDataWithSuccess.error,
-        })
-    }
-    const username  = req.body.username;
-    const password = req.body.password;
-
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-   try {
-    await UserModel.create({
-    username,
-    password : hashedPassword,
-   })
-    } catch (error) {
-    return res.status(400).json({
-        message : "You have already signup!"
-    })
-   }
-
-   res.status(200).json({
-    message: "You have signedUp successfully!"
-   })
-   
-})
-
-userRouter.post("/signin", async(req, res)=>{
-
-    const requireBody = zod.object({
-        username : zod.string().min(3),
-        password : zod.string().min(5),
-    })
-
-    const paresDataWithSuccess = requireBody.safeParse(req.body);
-    if(!paresDataWithSuccess.success){
-        return res.status(400).json({
-            message : "invalid Data format",
-            error : paresDataWithSuccess.error,
-        })
-    }
-    const username  = req.body.username;
-    const password = req.body.password;
-
-    const user = await UserModel.findOne({username})
-    console.log(user)
-    if(!user){
-        return res.status(403).json({
-            message: "Invalid credentials!"
-        })
+    // Validate input with zod
+    const validation = signupSchema.safeParse({ username, password });
+    if (!validation.success) {
+        return res.status(400).json({ message: "Invalid input!" });
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    // Check if user already exists
+    const existingUser = await UserModel.findOne({ username });
+    if (existingUser) {
+        return res.status(409).json({ message: "User already exists!" });
+    }
 
-    if(passwordMatch){
-        const token = jwt.sign({
-            id : user._id
-        }, JWT_SECRET)
-    
+    // Create new user
+    const newUser = new UserModel({ username, password });
+    await newUser.save();
 
-   res.status(200).json({
-    token: token,
-    message: "You have been signin successfully!",
-   })
-   }else{
-    return res.status(403).json({
-        message: "invalid credentails",
-    })
-   }
-})
+    res.status(201).json({ message: "User created successfully!" });
+});
 
-userRouter.get('/courses', async(req, res)=>{
+//  User Signin
+userRouter.post("/signin", async (req, res) => {
+    const { username, password } = req.body;
+
+    const user = await UserModel.findOne({ username, password });
+    if (!user) {
+        return res.status(401).json({ message: "Invalid username or password" });
+    }
+
+    // Create JWT token containing user._id
+    const token = jwt.sign({ id: user._id }, JWT_SECRET);
+
+    res.status(200).json({ token });
+});
+
+//  Get all available courses
+userRouter.get("/courses", async (req, res) => {
     const courses = await CourseModel.find({});
+    res.status(200).json({ courses });
+});
 
-    res.status(200).json({
-        courses,
-    })
-})
-
-userRouter.post("/courses/:courseId", userMiddleware, async(req, res)=>{
+//  Purchase a course (protected route)
+userRouter.post("/courses/:courseId", userMiddleware, async (req, res) => {
     const courseId = req.params.courseId;
-    const username = req.username;
 
-    try{
-        await UserModel.updateOne({
-            username : username
-        },{
-            $push: {
-                purchasedCourses : courseId,
-            }
-        })
-    }catch(err){
-        return res.status(400).json({
-            message : "Course purchase failed",
-            error : err.message,
-        });
+    try {
+        await UserModel.updateOne(
+            { _id: req.userId }, // req.userId comes from middleware
+            { $addToSet: { purchasedCourses: courseId } } // addToSet avoids duplicates
+        );
+
+        res.status(200).json({ message: "Course purchased successfully!" });
+    } catch (err) {
+        res.status(500).json({ message: "Course purchase failed", error: err.message });
     }
+});
 
-    res.status(200).json({
-        message :" Course purchased successfully",
-    })
-})
+//  Get purchased courses of a user
+userRouter.get("/purchasedCourses", userMiddleware, async (req, res) => {
+    const user = await UserModel.findById(req.userId).populate("purchasedCourses");
+    res.status(200).json({ courses: user.purchasedCourses });
+});
 
-userRouter.get("/purchasedCourses", userMiddleware,async(req, res)=>{
-    const username = req.username;
-
-    const user = await UserModel.findOne({
-        username,
-    })
-
-    const courses = await CourseModel.find({
-        _id: {
-            $in: user.purchasedCourses,
-        }
-    })
-
-    res.status(200).json({
-        courses,
-    })
-})
 module.exports = userRouter;
