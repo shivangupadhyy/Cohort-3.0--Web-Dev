@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = "ilove100xdev";
 const {AdminModel, CourseModel} = require('../db/db');
 const bcrypt = require('bcrypt');
+const adminMiddleware = require("../middleware/adminMiddleware");
 const app = express();
 app.use(express.json());
 
@@ -12,8 +13,7 @@ const adminRouter = express.Router();
 adminRouter.post('/signup',async(req, res)=>{
     const requireBody = zod.object({
         email:zod.string().email(),
-        password: zod.string().min(5),
-        firstName : zod.string().min(5)
+        password: zod.string().min(5)
     })
 
     const parsedDataWithSuccess = requireBody.safeParse(req.body);
@@ -27,7 +27,6 @@ adminRouter.post('/signup',async(req, res)=>{
 
     const email = req.body.email;
     const password = req.body.password;
-    const firstName = req.body.firstName;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -35,7 +34,7 @@ adminRouter.post('/signup',async(req, res)=>{
         await AdminModel.create({
             email,
             password: hashedPassword,
-            firstName
+           
         })
     }catch{
         return res.status(400).json({
@@ -51,8 +50,7 @@ adminRouter.post('/signup',async(req, res)=>{
 adminRouter.post('/signin', async(req, res)=>{
     const requireBody = zod.object({
         email: zod.string().email(),
-        password: zod.string().min(5),
-        firstName: zod.string().min(5)
+        password: zod.string().min(5)
     })
 
     const parsedDataWithSuccess = requireBody.safeParse(req.body);
@@ -91,4 +89,36 @@ adminRouter.post('/signin', async(req, res)=>{
             message: "Invalid credentials"
         })
     }
+
 })
+
+
+adminRouter.post('/course', adminMiddleware ,async(req, res)=>{
+    const title = req.body.title;
+    const description = req.body.description;
+    const imageUrl = req.body.imageUrl;
+    const price = req.body.price;
+
+   const newCourse = await CourseModel.create({
+        title,
+        description,
+        imageUrl,
+        price
+    })
+
+     res.status(201).json({
+        message: "Course Created Successfully!",
+        course : newCourse._id
+    })
+})
+
+adminRouter.get('/courses', adminMiddleware, async(req, res)=>{
+    const response  = await CourseModel.find({})
+
+    res.status(201).json({
+        courses:  response,
+    })
+})
+
+
+module.exports  = adminRouter;

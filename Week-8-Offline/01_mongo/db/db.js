@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 mongoose.connect("mongodb+srv://shivang14071993:4FfCt1jEXdf1M7OH@cluster0.rajcklb.mongodb.net/test-week8-app");
 
 const adminSchema = new Schema({
-    username : {type: String, unique: true},
-    password: String,
+    email: {type: String, unique : true},
+    password : String,
 })
 
 const userSchema = new Schema({

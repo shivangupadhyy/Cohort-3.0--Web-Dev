@@ -92,7 +92,7 @@ userRouter.post("/signin", async(req, res)=>{
    }
 })
 
-userRouter.get('courses', async(req, res)=>{
+userRouter.get('/courses', async(req, res)=>{
     const courses = await CourseModel.find({});
 
     res.status(200).json({
