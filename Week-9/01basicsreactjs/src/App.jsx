@@ -1,4 +1,8 @@
+import Chai from "./chai";
+
 function App() {
-  return <h1>Hello World shivang</h1>;
+  return(
+    <chai/>
+  )
 }
 export default App;
