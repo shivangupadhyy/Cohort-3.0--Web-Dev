@@ -1,42 +1,50 @@
+// Importing React hooks: useState (for state) and useEffect (for side effects)
 import { useState, useEffect } from "react"
 
-
-//explain conditional renderding
+// App component: The main/root component of your app
 function App() {
   return (
     <>
+      {/* Rendering the Counter component inside a div */}
       <div>
-        <Counter></Counter>
+        <Counter />
       </div>
     </>
   )
 }
 
-//mounting , re-rendering, unmounting
-
+// Counter component: Demonstrates state, effects, and rendering
 function Counter(){
+  // useState hook: Declares a state variable 'count' and a function 'setCount' to update it. Initial value is 0.
   const [ count , setCount] = useState(0);
 
-  console.log("Inside Counter Componennet")
+  // This log runs every time the Counter component renders (mounts or re-renders)
+  console.log("Inside Counter Component")
 
+  // Example of useEffect with setInterval (commented out version)
   // useEffect(function(){
+  //   // This sets up an interval to increment count every second
   //   setInterval(function(){
-  //   setCount( function(count){
-  //     return count +1 ;
-  //   })
-  // }, 1000)
-  // console.log("mounted")
+  //     setCount(function(count){
+  //       return count + 1;
+  //     })
+  //   }, 1000)
+  //   // This log runs only once when the component mounts
+  //   console.log("mounted")
   // }, [])
 
+  // useEffect hook: Runs after the component mounts (because dependency array is empty)
   useEffect(function(){
+    // Sets up an interval to increment count every second
     setInterval(function(){
       setCount(count => count + 1 )
     }, 1000);
-  }, []) // what is dependecy array, cleanup, fetch inside use effect with examplpe explain
-  
+  }, []) // Dependency array: [] means this effect runs only once (on mount)
+  // NOTE: No cleanup here, so multiple intervals may be created if component mounts/unmounts repeatedly (not best practice)
 
+  // Example functions for manual count control (commented out)
   // function increaseCount() {
-  //  setCount(count + 1)
+  //   setCount(count + 1)
   // }
 
   // function decreasecount(){
@@ -47,16 +55,16 @@ function Counter(){
   //   setCount(0)
   // }
 
-
   return (
     <div>
+      {/* Display the current count */}
       <h1>{count}</h1>
-      {/* <button onClick={increaseCount}>InCrease Count</button> */}
+      {/* Buttons for manual control (currently commented out) */}
+      {/* <button onClick={increaseCount}>Increase Count</button> */}
       {/* <button onClick={decreasecount}>Decrease Count</button>
       <button onClick={resetCount}>Reset Count</button> */}
     </div>
   )
-  
 }
 
 export default App
