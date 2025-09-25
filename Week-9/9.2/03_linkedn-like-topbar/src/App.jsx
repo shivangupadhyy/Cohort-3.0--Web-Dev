@@ -1,34 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react"
 
 function App() {
-  const [count, setCount] = useState(0)
 
+  const [ currentTab, setCurrentTab] = useState()
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <button onClick={function (){
+        setCurrentTab("feed")
+      }} style={{color: currentTab == "feed" ? "red" : "black"}}>Feed</button>
+      <button onClick={function(){
+        setCurrentTab("notifications")
+      }} style={{color: currentTab == "notifications" ? "red" : "black"}}>Notification</button>
+      <button onClick={function(){
+        setCurrentTab("messages")
+      }} style={{color: currentTab == "messages" ? "red" : "black"}}>Message</button>
+      <button onClick={function(){
+        setCurrentTab("jobs")
+      }} style={{color: currentTab == "jobs" ? "red" : "black"}}>Jobs</button>
+    </div>
   )
 }
 
