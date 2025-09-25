@@ -1,22 +1,21 @@
+import { useEffect, useState } from "react"
+
 function App() {
+
+  const [count, setCount] = useState(1);
+
+   useEffect(function(){
+     setInterval(()=>{
+      setCount(count => count + 1)
+     },1000)
+  },[])
+
   return (
     <div>
-      Hi world
-      <Greeting name={' Shivang'}
-      designation={' Software Developer'}
-      ></Greeting>
+      {count}
+      {/* <button onClick={increaseCount}>Increase Count</button> */}
     </div>
   )
-}
-
-function Greeting(props){
- return (
-  <div>
-     hi there{ props.name}
-     <br/>
-     designation{props.designation}
-  </div>
- )
 }
 
 export default App
