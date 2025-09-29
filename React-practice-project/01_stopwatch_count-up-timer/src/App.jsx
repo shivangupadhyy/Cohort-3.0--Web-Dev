@@ -1,4 +1,4 @@
-import './index.css'
+import './index.css';
 import { useEffect, useState } from "react";
 
 function App() {
@@ -18,39 +18,40 @@ function App() {
   }, [running]);
   return (
     <>
-      <h1 className='px-13'>01-StopWatch</h1>
-      <div>
+      {/* Tailwind classes instead of invalid inline string */}
+     <div className='max-w-md flex flex-col items-center justify-center py-8' >
+       <h1 className="text-2xl font-semibold">01-StopWatch</h1>
+
+      <div className="text-xl font-semibold py-4">
         <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)} : </span>
         <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)} : </span>
         <span>{("0" + Math.floor((time / 10) % 100)).slice(-2)} </span>
       </div>
-      <div>
-        {running ? (
-          <button
-            onClick={() => {
-              setRunning(false);
-            }}
-          >
-            Stop
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              setRunning(true);
-            }}
-          >
-            Start
-          </button>
-        )}
+
+      <div className="w-1/3 flex flex-row space-between">
+        {/* Replace inline style with Tailwind utilities */}
+        <button
+          onClick={() => setRunning(true)}
+          className="border border-gray-300 px-3 py-1 rounded-md bg-transparent hover:bg-gray-100 cursor-pointer"
+        >
+          Start
+        </button>
 
         <button
-          onClick={() => {
-            setTime(0);
-          }}
+          onClick={() => setRunning(false)}
+          className="border border-gray-300 px-3 py-1 rounded-md bg-transparent hover:bg-gray-100"
+        >
+          Stop
+        </button>
+
+        <button
+          onClick={() => setTime(0)}
+          className="border border-gray-300 px-3 py-1 rounded-md bg-transparent hover:bg-gray-100"
         >
           Reset
         </button>
       </div>
+     </div>
     </>
   );
 }
