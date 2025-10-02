@@ -49,7 +49,7 @@ const App = () =>{
     done: false
   }];
 
-  const todosComponent = todos.map(todo => <Todo title={todo.title} done={todo.done}></Todo>)
+  const todosComponent = todos.map(todo => <Todo title={todo.title} description={todo.description} done={todo.done}></Todo>)
 return (
   <div>
     {todosComponent}
@@ -59,7 +59,7 @@ return (
 
 function Todo({title, description, done}){
   return <div>
-    {title} - {done ? "Done" : "Not Done!"}
+    {title} - {description} - {done ? "Done" : "Not Done!"}
   </div>
 }
 
