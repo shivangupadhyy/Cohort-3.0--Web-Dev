@@ -33,34 +33,83 @@
 // export default App;
 
 
-const App = () =>{
+// const App = () =>{
 
-  const todos = [{
-    title: "5km run", 
-    description : "Run RUn RUn",
-    done : false
-  }, {
-    title: "Complete Lecture",
-    description: "By today",
-    done: true,
-  }, {
-    title: "go to Gym",
-    description:" Eat Healthy",
-    done: false
-  }];
+//   const todos = [{
+//     title: "5km run", 
+//     description : "Run RUn RUn",
+//     done : false
+//   }, {
+//     title: "Complete Lecture",
+//     description: "By today",
+//     done: true,
+//   }, {
+//     title: "go to Gym",
+//     description:" Eat Healthy",
+//     done: false
+//   }];
 
-  const todosComponent = todos.map(todo => <Todo title={todo.title} description={todo.description} done={todo.done}></Todo>)
-return (
-  <div>
-    {todosComponent}
+//   const todosComponent = todos.map(todo => <Todo title={todo.title} description={todo.description} done={todo.done}></Todo>)
+// return (
+//   <div>
+//     {todosComponent}
+//   </div>
+// )
+// }
+
+// function Todo({title, description, done}){
+//   return <div>
+//     {title} - {description} - {done ? "Done" : "Not Done!"}
+//   </div>
+// }
+
+
+// import React, { useState, useEffect } from 'react';
+
+// function MyComponent() {
+//   const [count, setCount] = useState(0);
+
+//   useEffect(() => {
+//     console.log('Component mounted or count updated');
+
+//   }, [count]); // Runs on mount and when count changes
+
+// 	useEffect(() => {
+// 		    console.log('Component mounted');
+//     return () => {
+//       console.log('Component will unmount');
+//     };
+// 	}, [])
+
+//   return (
+//     <div>
+//       <p>Count: {count}</p>
+//       <button onClick={() => setCount(count + 1)}>Increment</button>
+//     </div>
+//   );
+// }
+
+function Card1(){
+  return <div style={{backgroundColor:"red", borderRadius: 20, padding: 10, }}>
+    hi there
   </div>
-)
+}
+function Card2(){
+return <div style={{backgroundColor: "red", borderRadius: 20, padding: 10, margin: 10}}>
+  hello
+</div>
 }
 
-function Todo({title, description, done}){
-  return <div>
-    {title} - {description} - {done ? "Done" : "Not Done!"}
-  </div>
+
+const App = () =>{
+
+  
+  return (
+   <div>
+     <Card1></Card1>
+     <Card2/>
+   </div>
+  )
 }
 
 export default App;
