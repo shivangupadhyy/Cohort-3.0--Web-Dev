@@ -1,6 +1,6 @@
 // import {BrowserRouter, Routes, Route, Link, useNavigate, Outlet} from "react-router-dom"
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // function App() {
 //   return (
@@ -124,3 +124,33 @@ import { useRef } from "react";
 // }
 
 // export default App;
+
+function App(){
+  const [message, SetMessage] = useState(["Hello!", "How are You?"]);
+  const chatBoxRef = useRef(null);
+
+  const addMessage = ()=>{
+    SetMessage((prevMessage) => [...prevMessage, "New message"]);
+  };
+
+  useEffect(()=>{
+    chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+  }, [message]);
+
+  return (
+    <div>
+      <div ref={chatBoxRef}
+      style={{height: "200px" , overflow: "scroll", border: "1px solid Black"}}
+      >
+       {message.map((msg, index) =>(
+        <div key={index}>{msg}</div>
+       ))}  
+      </div>
+      <button onClick={addMessage}> Add Message</button>
+    </div>
+  )
+}
+
+
+export default App;
+
