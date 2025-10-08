@@ -3,27 +3,30 @@ import { useState } from "react"
 function App() {
 return (
   <div>
-    <LightBulb/>
+    <Light/>
   </div>
 )
 }
 
-function LightBulb(){
+function Light(){
  const [bulbOn, setBulbOn] = useState(true); 
+ let a = 1;
+ //bulbOn is a prop to the bulb state component
+ // bubloon , setbulbon are the props to the ToggleButtonState
   return <div>
-    <BulbState bulbOn ={bulbOn}/>
-    <ToggleBulbState bulbOn ={bulbOn} setBulbOn={setBulbOn}/>
+    <LightBulb bulbOn ={bulbOn} a={a}/>
+    <LightSwitch bulbOn ={bulbOn} setBulbOn={setBulbOn}/>
   </div>
 }
 
-function BulbState({bulbOn}){
+function LightBulb({bulbOn, a}){
   
   return <div>
-    {bulbOn ? "Bulb on" : "Bulb off"}
+    {bulbOn ? "Bulb on" : "Bulb off"}: {a}
   </div>
 }
 
-function ToggleBulbState({bulbOn, setBulbOn}){
+function LightSwitch({bulbOn, setBulbOn}){
 
   function toggle(){
     // setBulbOn(currentState => ! currentState)
