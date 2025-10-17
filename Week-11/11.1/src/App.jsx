@@ -7,18 +7,24 @@ function useCounter(){
     setCount ( c=> c+1);
   }
 
+  function decreaseCount(){
+    setCount( c=> c-1);
+  }
+
   return{
     count: count,
-    increaseCount: increaseCount
+    increaseCount: increaseCount,
+    decreaseCount:decreaseCount
   }
 }
 
 function App() {
- const {count, increaseCount} = useCounter();
+ const {count, increaseCount, decreaseCount} = useCounter();
  return(
   <div>
     {count}
     <button onClick={increaseCount}>increaseCount</button>
+    <button onClick={decreaseCount}>decreaseCount</button>
   </div>
  )
 }
