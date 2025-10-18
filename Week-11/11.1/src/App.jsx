@@ -1,6 +1,6 @@
 // import { useState } from "react"
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFetch } from "../hooks/useFetch";
 import { usePrev } from "../hooks/usePrev";
 
@@ -65,19 +65,50 @@ import { usePrev } from "../hooks/usePrev";
 // export default App;
 
 
+// function App(){
+//   const  [state, setState] = useState(0);
+
+//   const prev = usePrev(state);
+
+
+//   return(
+//     <>
+//     <p>{state}</p>
+//     <button onClick={()=> {setState ((curr)=> curr+1)}}>Click me</button>
+//     <p>Previous Value was {prev}</p>
+//     </>
+//   )
+// }
+
+// export default App;
+
+
+function useDebounce(originalFn){
+  const currentClock = useRef();
+
+  const fn = () =>{
+    clearTimeout(currentClock.current);
+    currentClock.current = setTimeout(originalFn, 200)
+
+  }
+
+  return fn;
+}
+
 function App(){
-  const  [state, setState] = useState(0);
 
-  const prev = usePrev(state);
+  function sendDatatoBackend(){
+    fetch("api.amazon.com/search/");
+  }
 
+  const debounceFn = useDebounce(sendDatatoBackend);
 
   return(
     <>
-    <p>{state}</p>
-    <button onClick={()=> {setState ((curr)=> curr+1)}}>Click me</button>
-    <p>Previous Value was {prev}</p>
+    <input type="text" onChange={debounceFn}/>
     </>
   )
+
 }
 
 export default App;

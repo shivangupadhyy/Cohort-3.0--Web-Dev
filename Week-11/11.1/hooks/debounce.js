@@ -1,7 +1,7 @@
 let currrentClock;
 
-function searchBackend(){\
-    console.log("Request sen to the backend");
+function searchBackend(){
+    console.log("Request sent to the backend");
 }
 
 function debounceSearchbackend(){
