@@ -18,22 +18,28 @@ import { useEffect, useState } from "react";
 //  }
 
 export function useFetch(url){
+    const [loading, setLoading] = useState(true);
     const [finalData, setFinalData] = useState({});
 
-    console.log(url);
-
     async function getDetails(){
+        setLoading(true)
         const response = await fetch(url);
         const json = await response.json();
         setFinalData(json);
+        setLoading(false)
     }
 
     useEffect(()=>{
         getDetails();
     }, [url])
 
-    
+    useEffect(()=>{
+        setInterval(getDetails, 10*1000)//clean up
+    },[])
+
+
     return{
-        finalData
+        finalData,
+        loading
     }
 }
