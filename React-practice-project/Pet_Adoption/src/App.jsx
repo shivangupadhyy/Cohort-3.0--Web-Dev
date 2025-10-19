@@ -1,5 +1,5 @@
 import Header from './components/Header';
-// import PetAdoptionForm from './components/PetAdoptionForm';
+import PetAdoptionForm from './components/PetAdoptionForm';
 import "./myApp.css";
 
 
@@ -13,7 +13,7 @@ const App = () => {
       }}
     >
       <Header message={"Pet Adoption Form"} />
-      {/* <PetAdoptionForm /> */}
+      <PetAdoptionForm />
     </div>
   );
 };
