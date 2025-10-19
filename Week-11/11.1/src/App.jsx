@@ -88,7 +88,7 @@ function useDebounce(originalFn){
 
   const fn = () =>{
     clearTimeout(currentClock.current);
-    currentClock.current = setTimeout(originalFn, 200)
+    currentClock.current = setTimeout(originalFn, 0)
 
   }
 
