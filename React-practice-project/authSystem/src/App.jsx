@@ -1,9 +1,7 @@
+import AuthSystem from "../component/AuthSystem"
+
 function App() {
-  return (
-    <>
-    hi there
-    </>
-  )
+  return <AuthSystem/>
 }
 
 export default App

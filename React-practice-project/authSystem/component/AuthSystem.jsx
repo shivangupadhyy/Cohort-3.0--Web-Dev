@@ -5,7 +5,7 @@ import Login from "./Login";
 
 export const AuthContext = createContext(undefined); 
 
-function AuthSystem(){
+const AuthSystem =()=>{
     const [useContextApi, setUseContextApi] = useState(false);
     const [username, setUsername] = useState('');
     const [isLoggedIn, setIsLoggedIn]  = useState(false);
@@ -62,3 +62,5 @@ function AuthSystem(){
         </AuthContext.Provider>
     )
 }
+
+export default AuthSystem;
