@@ -24,7 +24,7 @@ function AuthSystem(){
 
     requestAnimationFrame(
         <AuthContext.Provider value={contextValue}>
-            <div>
+            <div style={{minHeight: '100vh', display: "flex", flexDirection: "column"}}>
                 <AppBar
                 username= {username}
                 isLoggedIn = {isLoggedIn}
@@ -55,7 +55,7 @@ function AuthSystem(){
                     {isLoggedIn ? (
                         <Home/>
                     ): (
-                        <Login />
+                        <Login onLogin={login} />
                     )}
                 </main>
             </div>
