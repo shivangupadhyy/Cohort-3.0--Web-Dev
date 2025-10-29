@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "./AuthSystem";
 
-const Login = ({onlogin: propOnLogin})=> {
+const Login = ({onLogin: propOnLogin})=> {
 
     const [username, setUsername] = useState('');
     const contextValue = useContext(AuthContext);
