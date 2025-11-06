@@ -1,57 +1,54 @@
-// Import mongoose for MongoDB object modeling
+
 require('dotenv').config()
 const mongoose = require('mongoose');
 
-// Get the Schema constructor from mongoose
+
 const Schema = mongoose.Schema;
 
-// Get the ObjectId type from mongoose (used for references)
+
 const ObjectId = mongoose.ObjectId;
 
-// Log to confirm DB connection attempt
+
 console.log("Connected to db")
 
-// Connect to your MongoDB Atlas cluster and database
 mongoose.connect(process.env.MONGO_URL)
 
-// Define the schema for regular users
+
 const userSchema = new Schema({
-    email: {type: String, unique: true}, // unique email for each user
-    password: String,                    // user's password (should be hashed in production)
-    firstName : String,                  // user's first name
-    lastName : String                    // user's last name
+    email: {type: String, unique: true},
+    password: String,                    
+    firstName : String,                  
+    lastName : String                   
 })
 
-// Define the schema for admin users
+
 const adminSchema = new Schema({
-    email :{type:String, unique: true},  // unique email for each admin
-    password: String,                    // admin's password
-    firstName: String,                   // admin's first name
-    lastName : String                    // admin's last name
+    email :{type:String, unique: true},  
+    password: String,                    
+    firstName: String,                   
+    lastName : String                    
 })
 
-// Define the schema for courses
+
 const couresSchema = new Schema({
-    title:  String,                      // course title
-    description : String,                 // course description
-    price: Number,                       // course price
-    imageUrl: String,                    // URL to course image
-    creatorId : ObjectId                 // reference to the admin who created the course
+    title:  String,                      
+    description : String,                 
+    price: Number,                       
+    imageUrl: String,                    
+    creatorId : ObjectId                 
 })
 
-// Define the schema for purchases (which user bought which course)
+
 const purchaseSchema = new Schema({
-    userId : ObjectId,                   // reference to the user
-    courseId : ObjectId                  // reference to the course
+    userId : ObjectId,                   
+    courseId : ObjectId                  
 })
 
-// Create Mongoose models for each schema
-const UserModel = mongoose.model("user", userSchema);         // Model for users
-const AdminModel = mongoose.model("admin", adminSchema);      // Model for admins
-const CourseModel = mongoose.model("course", couresSchema);   // Model for courses
-const PurchaseModel = mongoose.model("purchase", purchaseSchema); // Model for purchases
+const UserModel = mongoose.model("user", userSchema);         
+const AdminModel = mongoose.model("admin", adminSchema);      
+const CourseModel = mongoose.model("course", couresSchema);   
+const PurchaseModel = mongoose.model("purchase", purchaseSchema); 
 
-// Export all models so they can be used in other files
 module.exports ={
     UserModel,
     AdminModel,
