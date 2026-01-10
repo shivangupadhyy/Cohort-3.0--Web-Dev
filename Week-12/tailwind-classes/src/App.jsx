@@ -2,14 +2,14 @@ export default function App() {
   return (
     <>
     <div className="grid grid-cols-12">
-      <div className="bg-blue-300 col-span-4">
-        child1
+      <div className="col-span-12 sm:col-span-5 bg-green-300 rounded-full text-center">
+        hi
       </div>
-      <div className="bg-red-300 col-span-6">
-        child2
+      <div className="col-span-12 sm:col-span-5 bg-red-300">
+        hello
       </div>
-      <div className=" bg-green-300 col-span-2">
-        child3
+      <div className="col-span-12 sm:col-span-2 bg-blue-300">
+        world
       </div>
     </div>
     </>
