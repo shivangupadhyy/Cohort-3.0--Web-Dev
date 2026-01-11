@@ -1,3 +1,5 @@
+import Button from "./components/Button";
+
 export default function App() {
   return (
     <>
@@ -11,6 +13,7 @@ export default function App() {
       <div className="col-span-12 sm:col-span-2 bg-blue-300">
         world
       </div>
+      <Button>Sign Up</Button>
     </div>
     </>
   )
