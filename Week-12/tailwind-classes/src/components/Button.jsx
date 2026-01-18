@@ -1,11 +1,12 @@
 const Button = ({
     disabled,
     children,
-    onClick
+    onClick,
+    variant
 }) => {
-  return <div onClick={onClick}  className={`px-32 py-8 text-white cursor-pointer rounded-2xl text-4xl text-center my-5 mx-5 ${disabled ? "bg-blue-200" : "bg-green-400"} `}>
+  return <span onClick={onClick}  className={`rounded-2xl text-4xl px-32 py-8 text-white cursor-pointer ${disabled ? "bg-blue-200" : "bg-green-400"} `}>
 {children}
-  </div>
+  </span>
 }
 
 export default Button
