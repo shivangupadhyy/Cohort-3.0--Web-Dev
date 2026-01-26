@@ -128,9 +128,12 @@
 //     return a+b;
 // }
 
-// function greet(name: string) : string{
-//     return "hello " + name;
-// }
+function greet(name: string) : string{
+    return "hello " + name;
+}
+
+const greeting = greet("shivnag");
+console.log(greeting);
 
 // function isEven(num : number): boolean{
 //     if(num % 2 == 0){
@@ -139,6 +142,42 @@
 //         return false;
 //     }
 // }
+
+//if we have a a complex object how we  can define the type of the object
+//thats why we use interfaces
+
+interface User{
+    name: string;
+    age: number;
+    address: {
+        city: string;
+        country: string;
+        pincode: number;
+    };
+}
+
+let user : User = {
+    name : "shivang",
+    age: 21,
+    address :  {
+        city : 'UP',
+        country: "india",
+        pincode: 2121212
+    }
+}
+
+function isLegal(user : User): boolean {
+    if(user.age >= 18){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+console.log(isLegal(user))
+
+
+
 
 
 
