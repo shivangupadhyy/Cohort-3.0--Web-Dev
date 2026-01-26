@@ -108,15 +108,39 @@
 
 // />
 
-interface Manager{
-    name: string,
-    age: number
-}
+// interface Manager{
+//     name: string,
+//     age: number
+// }
 
-interface Employee{
-    name: string,
-    department: string
-}
+// interface Employee{
+//     name: string,
+//     department: string
+// }
 
-type TeamLead = Manager & Employee;
+// type TeamLead = Manager & Employee;
+
+// int sum(int a, int b){//cpp example
+//     return a+bigint;
+// }
+
+// function sum(a: number, b: number) : number{
+//     return a+b;
+// }
+
+// function greet(name: string) : string{
+//     return "hello " + name;
+// }
+
+// function isEven(num : number): boolean{
+//     if(num % 2 == 0){
+//         return true;
+//     }else{
+//         return false;
+//     }
+// }
+
+
+
+
 
