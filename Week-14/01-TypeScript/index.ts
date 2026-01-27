@@ -2,6 +2,8 @@
 //     return `hello , ${firstName}`;
 // }
 
+import ts = require("typescript");
+
 // console.log(greet("TypeScript"));
 
 
@@ -128,12 +130,12 @@
 //     return a+b;
 // }
 
-function greet(name: string) : string{
-    return "hello " + name;
-}
+// function greet(name: string) : string{
+//     return "hello " + name;
+// }
 
-const greeting = greet("shivnag");
-console.log(greeting);
+// const greeting = greet("shivnag");
+// console.log(greeting);
 
 // function isEven(num : number): boolean{
 //     if(num % 2 == 0){
@@ -146,38 +148,122 @@ console.log(greeting);
 //if we have a a complex object how we  can define the type of the object
 //thats why we use interfaces
 
-interface User{
-    name: string;
-    age: number;
-    address: {
-        city: string;
-        country: string;
-        pincode: number;
-    };
-}
+// interface User{
+//     name: string;
+//     age: number;
+//     address: {
+//         city: string;
+//         country: string;
+//         pincode: number;
+//     };
+// }
 
-let user : User = {
-    name : "shivang",
-    age: 21,
-    address :  {
-        city : 'UP',
-        country: "india",
-        pincode: 2121212
+// let user : User = {
+//     name : "shivang",
+//     age: 21,
+//     address :  {
+//         city : 'UP',
+//         country: "india",
+//         pincode: 2121212
+//     }
+// }
+
+// function isLegal(user : User): boolean {
+//     if(user.age >= 18){
+//         return true;
+//     }else{
+//         return false;
+//     }
+// }
+
+// console.log(isLegal(user))
+
+
+// interface People{
+//     name : string,
+//     age: number,
+//     // greet : () => string,
+
+//     // greet2():string
+// }
+
+
+// let person: People = {
+//     name: "Shivang",
+//     age: 21,
+//     greet: () => {
+//         return "hi"
+//     },
+//     greet2(): string {
+//         return "hello"
+//     }
+// }
+
+// let greeting = person.greet();
+// console.log(greeting);
+
+// class Manager implements People{
+//     name : string;
+//     age : number;
+//     number : string
+
+//     constructor(name: string, age: number) {
+//         this.name = name;
+//         this.age = age;
+//         this.number = "3322332"
+//     }
+// }
+
+// let user = new Manager("John", 30);
+
+
+
+// class Shape {
+//     area(){
+//         console.log("hi i am are");
+//     }
+// }
+
+// class Rectangle extends Shape {
+//     width : number;
+//     height : number;
+
+//     constructor(){
+//         super()
+//         this.width = 1;
+//         this.height = 2;
+//     }
+// }
+
+// const r = new Rectangle();
+// r.area();
+
+// interface User{
+//     name : string;
+//     age : number;
+// }
+
+// class Manager implements User{
+//     name : string;
+//     age : number;
+//     constructor(name: string, age : number){
+//         this.name = name;
+//         this.age = age;
+//     }
+// }
+
+// const m = new Manager("shivang", 21);
+// console.log(m.name);
+// console.log(m.age);
+
+abstract class User{
+    name : string;
+    constructor(name : string){
+        this.name = name;
     }
+
+   abstract greet: () => string
 }
-
-function isLegal(user : User): boolean {
-    if(user.age >= 18){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-console.log(isLegal(user))
-
-
-
 
 
 
