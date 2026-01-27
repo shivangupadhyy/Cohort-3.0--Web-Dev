@@ -331,22 +331,69 @@ import ts = require("typescript");
 //     ip : "asasasasas";
 //  }
 
-interface Admin {
-    name : string;
-    permission : string;
-}
+// interface Admin {
+//     name : string;
+//     permission : string;
+// }
+
+// interface User{
+//     name : string;
+//     age : number;
+// }
+
+// type UserOrAdmin = User | Admin;
+
+// function greet(user: UserOrAdmin){
+
+// }
+
+
+// function getMax(nums : number[]){
+//     let maxValue :number = -100000000;
+
+//     for(let i = 0; i<nums.length; i++){
+//         const num = nums[i];
+//         if(num != undefined && num > maxValue){
+//             maxValue = num
+//         }
+//     }
+//     return maxValue;
+// }
+
+// getMax([1,2,3]);
+
+// interface Address{
+//     city : string;
+//     pincode : string;
+// }
+
+// interface User{
+//     name : string;
+//     age : number;
+//     address : Address[];
+// }
+
+// interface User{
+//     firstName : string;
+//     lastName : string;
+//     age: number;
+// }
 
 interface User{
-    name : string;
-    age : number;
+    firstName : string;
+    lastName : string;
+    age : number
 }
 
-type UserOrAdmin = User | Admin;
-
-function greet(user: UserOrAdmin){
-    
+function filterUsers(users: User[]) : User[]{
+    let ans : User[] = [];
+    for(let i = 0; i<users.length; i++){
+        if(users[i].age > 18){
+            ans.push(users[i]!);
+        }
+    }
+    return ans;
 }
-
 
 
 
