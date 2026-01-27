@@ -256,13 +256,95 @@ import ts = require("typescript");
 // console.log(m.name);
 // console.log(m.age);
 
-abstract class User{
-    name : string;
-    constructor(name : string){
-        this.name = name;
-    }
+// abstract class User{
+//     name : string;
+//     constructor(name : string){
+//         this.name = name;
+//     }
 
-   abstract greet: () => string
+//    abstract greet(): string;
+//    hello(){
+//     console.log("hi there");
+//    }
+// }
+
+// class Employee extends User{
+//     name : string;
+//     constructor(name : string){
+//         super(name)
+//         this.name = name;
+//     }
+//     greet() {
+//         return "hi" + this.name;
+//     }
+// }
+
+// interface User2{
+//     name : string;
+// }
+
+// type User = {
+//     name : string;
+//     age : number;
+// }
+
+// function isLegal(user: User){
+//     return user.age>18;
+// }
+
+// type Employee = {
+//     name : string;
+//     startDate : string;
+// }
+
+// type Manager = {
+//     name : string;
+//     department : string;
+// }
+
+// type TeamLead = Employee & Manager;
+
+// let e : Employee = {
+//     name : "Shivang",
+//     startDate : "14-07-2025"
+// }
+
+// let m : Manager = {
+//     name : "Harkirat",
+//     department : "SDE"
+// }
+
+//  type GoodUser = {
+//     name : string;
+//     gift : string;
+//  };
+
+//  type BadUser = {
+//     name : string;
+//     ip : string;
+//  }
+
+//  type User = GoodUser | BadUser;
+
+//  const user : User = {
+//     name : "Shivang";
+//     ip : "asasasasas";
+//  }
+
+interface Admin {
+    name : string;
+    permission : string;
+}
+
+interface User{
+    name : string;
+    age : number;
+}
+
+type UserOrAdmin = User | Admin;
+
+function greet(user: UserOrAdmin){
+    
 }
 
 
