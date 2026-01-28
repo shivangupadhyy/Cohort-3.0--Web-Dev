@@ -133,3 +133,5 @@ const config: Readonly<Config> = {
     endpoint: "https://api.example.com",
     apikey : 'adbcedf123345',
 }
+
+// config.apikey = 'newkey'; // Error : Cannot assign to 'apikey' because it is a read-only property.
