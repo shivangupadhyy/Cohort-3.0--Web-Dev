@@ -124,14 +124,47 @@
 
 // updateUser({});
 
-interface Config{
-    readonly endpoint: string;
-    readonly apikey: string;
-}
+// interface Config{
+//     readonly endpoint: string;
+//     readonly apikey: string;
+// }
 
-const config: Readonly<Config> = {
-    endpoint: "https://api.example.com",
-    apikey : 'adbcedf123345',
-}
+// const config: Readonly<Config> = {
+//     endpoint: "https://api.example.com",
+//     apikey : 'adbcedf123345',
+// }
 
 // config.apikey = 'newkey'; // Error : Cannot assign to 'apikey' because it is a read-only property.
+
+//Record
+// interface User{
+//     id : string;
+//     name : string;
+// }
+
+// type Users = {[key : string] : User};
+
+// const users :Users = {
+//     'abc123': {id: 'abc123', name : 'Shivang'},
+//     'xyz123' : {id: 'xyz789', name: 'shivnag'},
+// };
+
+// or use record;
+
+interface User{
+    id : string;
+    name : string;
+}
+
+type Users = Record<string, User>;
+
+const users : Users = {
+    'abc123' : {id:'abc123', name : 'shivang'},
+    'xyz789' : {id: 'xyz123', name : 'harkirat'},
+}
+
+console.log(users['abc123']);// Output : {id: 'abc123', name : 'Shivang Upadhyay'};
+
+
+//Map
+
