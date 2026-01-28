@@ -106,20 +106,30 @@
 // }
 
 
-interface User{
-    id:String;
-    name : string;
-    age : string;
-    email : string;
-    password:string;
-};
+// interface User{
+//     id:String;
+//     name : string;
+//     age : string;
+//     email : string;
+//     password:string;
+// };
 
-type UpdateProps = Pick<User, 'name' | 'age' | 'email'>
+// type UpdateProps = Pick<User, 'name' | 'age' | 'email'>
 
-type UpdatePropsOptional = Partial<UpdateProps>
+// type UpdatePropsOptional = Partial<UpdateProps>
 
-function updateUser(updatedProps : UpdatePropsOptional){
-    //
+// function updateUser(updatedProps : UpdatePropsOptional){
+//     //
+// }
+
+// updateUser({});
+
+interface Config{
+    readonly endpoint: string;
+    readonly apikey: string;
 }
 
-updateUser({});
+const config: Readonly<Config> = {
+    endpoint: "https://api.example.com",
+    apikey : 'adbcedf123345',
+}
