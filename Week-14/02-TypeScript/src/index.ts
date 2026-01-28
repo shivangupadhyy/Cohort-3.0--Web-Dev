@@ -151,20 +151,32 @@
 
 // or use record;
 
-interface User{
-    id : string;
-    name : string;
-}
+// interface User{
+//     id : string;
+//     name : string;
+// }
 
-type Users = Record<string, User>;
+// type Users = Record<string, User>;
 
-const users : Users = {
-    'abc123' : {id:'abc123', name : 'shivang'},
-    'xyz789' : {id: 'xyz123', name : 'harkirat'},
-}
+// const users : Users = {
+//     'abc123' : {id:'abc123', name : 'shivang'},
+//     'xyz789' : {id: 'xyz123', name : 'harkirat'},
+// }
 
-console.log(users['abc123']);// Output : {id: 'abc123', name : 'Shivang Upadhyay'};
+// console.log(users['abc123']);// Output : {id: 'abc123', name : 'Shivang Upadhyay'};
 
 
 //Map
 
+interface User{
+    id : string;
+    name : string;
+}
+//inititalize ana empty map
+const usersMap = new Map<string, User>();
+
+//add users to the map using .set
+usersMap.set('abc123', {id: 'abc123', name: 'Shivang'});
+usersMap.set('xyz123', {id: 'xyz123', name : 'harkirat'});
+
+console.log(usersMap.get('abc123'))
