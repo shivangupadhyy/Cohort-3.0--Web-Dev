@@ -20,6 +20,8 @@ interface User{
 
 type UpdateProps = Pick<User, 'name' | 'age' | 'email' >
 
+type UpdatePropsOptional = Partial<UpdateProps>
+
 function updateUser(updatedProps : UpdateProps){
 
 }
@@ -28,3 +30,17 @@ function updateUser(updatedProps : UpdateProps){
 //     //hit the database tp update the user
 // }
 
+
+updateUser({
+    name : "asd",
+    age : 23,
+    email : "Shivang"
+})
+
+
+const lastName = "Shivang";
+lastName = "upadhyay";
+
+const a = [1,2,3];
+a[0] = 4; // wecan change the internal value of the array but can not the array 
+// a = [1,3,4];
