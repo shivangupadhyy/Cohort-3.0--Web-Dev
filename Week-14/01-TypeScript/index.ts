@@ -379,21 +379,21 @@ import ts = require("typescript");
 //     age: number;
 // }
 
-interface User{
-    firstName : string;
-    lastName : string;
-    age : number
-}
+// interface User{
+//     firstName : string;
+//     lastName : string;
+//     age : number
+// }
 
-function filterUsers(users: User[]) : User[]{
-    let ans : User[] = [];
-    for(let i = 0; i<users.length; i++){
-        if(users[i].age > 18){
-            ans.push(users[i]!);
-        }
-    }
-    return ans;
-}
+// function filterUsers(users: User[]) : User[]{
+//     let ans : User[] = [];
+//     for(let i = 0; i<users.length; i++){
+//         if(users[i].age > 18){
+//             ans.push(users[i]!);
+//         }
+//     }
+//     return ans;
+// }
 
 
 
