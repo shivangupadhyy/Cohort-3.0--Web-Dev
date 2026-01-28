@@ -192,3 +192,40 @@
 
 // handleEvent('click');//ok
 // handleEvent('scroll');//will throw and error
+
+
+
+// Type inference in zod
+// When using zod, we’re done runtime validation. 
+// For example, the following code makes sure that the user is sending the right inputs to update their profile information
+
+import {email, z}  from 'zod';
+import express from 'express';
+
+const app = express();
+
+app.use(express.json());
+
+
+const profileUpdateSchema = z.object({
+    name : z.string().min(1,{message: "Name cannot be empty"}),
+    email: z.string().email({message: "invalid email adress"}),
+    age:z.number().min(18,{message: "Age must be at least 18"}),
+});
+
+app.put('/user', (req, res)=>{
+    const { success } = profileUpdateSchema.safeParse(req.body);
+    const updateBody = req.body;//how to assign a type to updateBody?
+
+    if(!success){
+        res.status(411).json();
+        return;
+    }
+
+    res.json({
+        message: "User Updated";
+    })
+
+})
+
+app.listen(3000)
