@@ -166,17 +166,29 @@
 // console.log(users['abc123']);// Output : {id: 'abc123', name : 'Shivang Upadhyay'};
 
 
-//Map
+//Map  ........-------------XXXXXXXXXXXXXXXXXXXXXXXXXx
 
-interface User{
-    id : string;
-    name : string;
-}
-//inititalize ana empty map
-const usersMap = new Map<string, User>();
+// interface User{
+//     id : string;
+//     name : string;
+// }
+// //inititalize ana empty map
+// const usersMap = new Map<string, User>();
 
-//add users to the map using .set
-usersMap.set('abc123', {id: 'abc123', name: 'Shivang'});
-usersMap.set('xyz123', {id: 'xyz123', name : 'harkirat'});
+// //add users to the map using .set
+// usersMap.set('abc123', {id: 'abc123', name: 'Shivang'});
+// usersMap.set('xyz123', {id: 'xyz123', name : 'harkirat'});
 
-console.log(usersMap.get('abc123'))
+// console.log(usersMap.get('abc123'))
+
+
+// type Event = 'click' | 'scroll' | 'mousemove';
+
+// type ExcludeEvent = Exclude<Event, 'scroll'>;// 'click | 'mousemove;
+
+// const handleEvent = (event:ExcludeEvent) =>{
+//     console.log(`Handling event: ${event}`);
+// }
+
+// handleEvent('click');//ok
+// handleEvent('scroll');//will throw and error
