@@ -223,7 +223,7 @@ app.put('/user', (req, res)=>{
     }
 
     res.json({
-        message: "User Updated";
+        message: "User Updated",
     })
 
 })
