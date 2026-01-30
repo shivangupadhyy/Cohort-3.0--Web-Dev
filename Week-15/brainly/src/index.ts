@@ -2,9 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { UserModel } from "./db.js";
-
-const JWT_PASSWORD = '12121212';
-
+import { JWT_PASSWORD } from "./config.js";
 const app = express();
 app.use(express.json());
 
