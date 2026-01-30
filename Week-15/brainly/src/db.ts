@@ -24,4 +24,4 @@ const LinkSchema = new Schema({
 })
 
 export const LinkModel = model("Link", LinkSchema);
-export const contentModel = model("Content", ContentSchema);
+export const ContentModel = model("Content", ContentSchema);
