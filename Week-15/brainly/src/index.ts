@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import { ContentModel, contentModel, UserModel } from "./db.js";
+import { ContentModel, UserModel } from "./db.js";
 import { JWT_PASSWORD } from "./config.js";
 import { useMiddleware } from "./middleware.js";
 const app = express();
@@ -55,7 +55,7 @@ app.post("/appi/v1/content",useMiddleware , (req, res)=>{
     const link = req.body.link;
     const type = req.body.type;
 
-    contentModel.create({
+    ContentModel.create({
         link,
         type,
         //@ts-ignore
