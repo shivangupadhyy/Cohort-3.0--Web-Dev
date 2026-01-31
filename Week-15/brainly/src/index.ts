@@ -51,15 +51,14 @@ app.post("/api/v1/signin", async(req, res)=>{
     }
 })
 
-app.post("/appi/v1/content",useMiddleware , (req, res)=>{
+app.post("/appi/v1/content",useMiddleware , async(req, res)=>{
     const link = req.body.link;
     const type = req.body.type;
 
-    ContentModel.create({
+    await ContentModel.create({
         link,
         type,
-        //@ts-ignore
-        userid: req.userId,
+        userId: new mongoose.Types.ObjectId(req.userId),
         tags: []
     })
 
@@ -69,8 +68,7 @@ app.post("/appi/v1/content",useMiddleware , (req, res)=>{
 })
 
 app.get("/api/v1/content", useMiddleware, async(req, res)=>{
-//@ts-ignore
-const userId = req.userId;
+const userId = new mongoose.Types.ObjectId(req.userId);
 const content = await ContentModel.find({
     userId: userId
 }).populate("userId", "username")
@@ -82,10 +80,9 @@ res.json({
 app.delete("/api/v1/content",useMiddleware, async(req, res)=>{
     const contentId = req.body.contentId;
 
-    await ContentModel.deleteMany({
-        contentId,
-        //@ts-ignore
-        userId: req.userId
+    await ContentModel.deleteOne({
+        _id: contentId,
+        userId: new mongoose.Types.ObjectId(req.userId)
     })
 
     res.json({
@@ -102,3 +99,4 @@ app.get("/api/v1/brain/:shareLink", (req, res)=>{
 })
 
 app.listen(3000, () => console.log('Server running at http://localhost:3000'));
+

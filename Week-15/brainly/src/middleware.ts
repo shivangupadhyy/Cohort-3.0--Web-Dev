@@ -13,21 +13,22 @@ import { JWT_PASSWORD } from "./config.js";
 
 export const useMiddleware = (req: Request, res: Response, next: NextFunction)=>{
     const header = req.headers.authorization;
-    const decoded = jwt.verify(header as string, JWT_PASSWORD);
+    if (!header || typeof header !== "string" || !header.startsWith("Bearer ")) {
+        res.status(401).json({ message: "Authorization header missing or malformed" });
+        return;
+    }
 
-    if(decoded){
-        if(typeof decoded === "string"){
-            res.status(403).json({
-                message : "You are not logged in"
-            })
+    const token = header.slice(7).trim();
+
+    try {
+        const decoded = jwt.verify(token, JWT_PASSWORD);
+        if (typeof decoded === "string") {
+            res.status(403).json({ message: "Invalid token payload" });
             return;
         }
-//@ts-ignore
-        req.userId = (decoded as JwtPayload).id;
+        req.userId = (decoded as JwtPayload).id as string;
         next();
-    }else{
-        res.status(403).json({
-            message: "You are not logged in"
-        })
+    } catch (e) {
+        res.status(401).json({ message: "Invalid or expired token" });
     }
 }
