@@ -64,11 +64,11 @@ app.post("/appi/v1/content",useMiddleware , (req, res)=>{
     })
 
     res.json({
-        message: "Content Added";
+        message: "Content Added",
     })
 })
 
-app.get("/api/v1/content", useMiddleware,(req, res)=>{
+app.get("/api/v1/content", useMiddleware, async(req, res)=>{
 //@ts-ignore
 const userId = req.userId;
 const content = await ContentModel.find({
