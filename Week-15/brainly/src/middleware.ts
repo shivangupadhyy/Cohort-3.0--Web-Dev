@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import type { JwtPayload } from "jsonwebtoken";
 import { JWT_PASSWORD } from "./config.js";
+import { ObjectId } from "mongodb";
 
 // declare global {
 //   namespace Express {
@@ -26,7 +27,7 @@ export const useMiddleware = (req: Request, res: Response, next: NextFunction)=>
             res.status(403).json({ message: "Invalid token payload" });
             return;
         }
-        req.userId = (decoded as JwtPayload).id as string;
+        req.userId = new ObjectId((decoded as JwtPayload).id as string);
         next();
     } catch (e) {
         res.status(401).json({ message: "Invalid or expired token" });
