@@ -1,173 +1,138 @@
 import express from "express";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import cors from "cors";
+
 import { random } from "./utils.js";
 import { ContentModel, LinkModel, UserModel } from "./db.js";
 import { JWT_PASSWORD } from "./config.js";
 import { useMiddleware } from "./middleware.js";
-import cors from 'cors';
+
 const app = express();
+
 app.use(express.json());
+app.use(cors());
 
 
-app.post("/api/v1/signup", async(req, res) => {
-    //zod validation here and , hash the password
+app.post("/api/v1/signup", async (req, res) => {
+  const { username, password } = req.body;
 
-    const username =  req.body.username;
-    const password = req.body.password;
+  try {
+    await UserModel.create({ username, password });
 
-    try{
-        await UserModel.create({
-        username: username,
-        password: password
-    })
+    res.json({ message: "User signed up" });
+  } catch (e) {
+    res.status(409).json({ message: "User already exists" });
+  }
+});
 
-    res.json({
-        message: "User signed up",
-    })
-    }catch(e){
-        res.status(411).json({
-            message : "User already Exists"
-        })
-    }
-})
+app.post("/api/v1/signin", async (req, res) => {
+  const { username, password } = req.body;
 
-app.post("/api/v1/signin", async(req, res)=>{
-    const username = req.body.username;
-    const password = req.body.password;
-    const existingUser = await UserModel.findOne({
-        username,
-        password
-    })
+  const user = await UserModel.findOne({ username, password });
 
-    if(existingUser){
-        const token = jwt.sign({
-            id: existingUser._id
-        }, JWT_PASSWORD)
+  if (!user) {
+    return res.status(403).json({ message: "Incorrect credentials" });
+  }
 
-        res.json({
-            token
-        })
-    }else{
-        res.status(403).json({
-            messsage : "Incorrect Credentials"
-        })
-    }
-})
+  const token = jwt.sign(
+    { id: user._id },
+    JWT_PASSWORD,
+    { expiresIn: "7d" }
+  );
 
-app.post("/appi/v1/content",useMiddleware , async(req, res)=>{
-    const link = req.body.link;
-    const type = req.body.type;
+  res.json({ token });
+});
 
-    await ContentModel.create({
-        link,
-        type,
-        userId: new mongoose.Types.ObjectId(req.userId),
-        tags: []
-    })
 
-    res.json({
-        message: "Content Added",
-    })
-})
+app.post("/api/v1/content", useMiddleware, async (req, res) => {
+  const { link, type } = req.body;
 
-app.get("/api/v1/content", useMiddleware, async(req, res)=>{
-const userId = new mongoose.Types.ObjectId(req.userId);
-const content = await ContentModel.find({
-    userId: userId
-}).populate("userId", "username")
-res.json({
-    content
-})
-})
+  await ContentModel.create({
+    link,
+    type,
+    userId: req.userId,
+    tags: []
+  });
 
-app.delete("/api/v1/content",useMiddleware, async(req, res)=>{
-    const contentId = req.body.contentId;
+  res.json({ message: "Content added" });
+});
 
-    await ContentModel.deleteMany({
-        _id: contentId,
-        userId: new mongoose.Types.ObjectId(req.userId)
-    })
+app.get("/api/v1/content", useMiddleware, async (req, res) => {
+  const content = await ContentModel.find({
+    userId: req.userId
+  }).populate("userId", "username");
 
-    res.json({
-        message: "Deleted"
-    })
-})
+  res.json({ content });
+});
 
-app.post("/api/v1/brain/share",useMiddleware, async(req, res)=>{
-    const share  = req.body.share;
-    if(share){
-        const existingLink = await LinkModel.findOne({
-            userId: new mongoose.Types.ObjectId(req.userId)
-        });
+app.delete("/api/v1/content", useMiddleware, async (req, res) => {
+  const { contentId } = req.body;
 
-        if(existingLink){
-            res.json({
-                hash: existingLink.hash
-            })
-            return;
-        }
+  await ContentModel.deleteOne({
+    _id: contentId,
+    userId: req.userId
+  });
 
-        const hash = random(10);
-        await LinkModel.create({
-            userId : new mongoose.Types.ObjectId(req.userId),
-            hash : hash
-        })
+  res.json({ message: "Deleted" });
+});
 
-        res.json({
-            hash
-        })
 
-    }else{
-        await LinkModel.deleteOne({
-            userId : new mongoose.Types.ObjectId(req.userId),
-        })
-        res.json({
-            message : "Removed link"
-        })
-    }
+app.post("/api/v1/brain/share", useMiddleware, async (req, res) => {
+  const { share } = req.body;
 
-})
-
-app.get("/api/v1/brain/:shareLink", useMiddleware,async(req, res)=>{
-    const hash = req.params.shareLink;
-
-    const link = await LinkModel.findOne({
-        hash
+  if (share) {
+    const existingLink = await LinkModel.findOne({
+      userId: req.userId
     });
 
-    if(!link){
-        res.status(411).json({
-            message: "sorry incorrect input"
-        })
-        return;
+    if (existingLink) {
+      return res.json({ hash: existingLink.hash });
     }
 
-    const content = await ContentModel.find({
-        userId : link.userId
-    })
+    const hash = random(10);
+
+    await LinkModel.create({
+      userId: req.userId,
+      hash
+    });
+
+    return res.json({ hash });
+  }
+
+  await LinkModel.deleteOne({
+    userId: req.userId
+  });
+
+  res.json({ message: "Share link removed" });
+});
 
 
-    console.log(link);
-    const user = await UserModel.findOne({
-        _id : link.userId
-    })
+app.get("/api/v1/brain/:shareLink", async (req, res) => {
+  const { shareLink } = req.params;
 
-    if(!user){
-        res.status(411).json({
-            message: "user not found , error should ideally not happen"
-        })
-        return;
-    }
+  const link = await LinkModel.findOne({ hash: shareLink });
+
+  if (!link) {
+    return res.status(404).json({ message: "Invalid link" });
+  }
+
+  const user = await UserModel.findById(link.userId);
+  const content = await ContentModel.find({
+    userId: link.userId as mongoose.Types.ObjectId
+  });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  res.json({
+    username: user.username,
+    content
+  });
+});
 
 
-    res.json({
-        username : user.username,
-        content: content
-    })
-
-    
-})
-
-app.listen(3000, () => console.log('Server running at http://localhost:3000'));
-
+app.listen(3000, () => {
+  console.log("Server running at http://localhost:3000");
+});
