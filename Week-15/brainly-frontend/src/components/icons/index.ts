@@ -1,4 +1,4 @@
-interface IconProps{
+export interface IconProps{
     size : "sm" | "md" | "lg"
 }
 
