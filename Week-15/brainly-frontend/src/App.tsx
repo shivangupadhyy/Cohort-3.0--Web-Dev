@@ -1,7 +1,9 @@
+import SocialFlipButton from "./components/ui/ContactUs";
+
 export default function App() {
-  return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-  )
+    return (
+        <div className="p-8">
+            <SocialFlipButton />
+        </div>
+    );
 }

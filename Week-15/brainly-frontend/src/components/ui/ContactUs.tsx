@@ -30,12 +30,12 @@ backClassName?: string;
 }
 
 const defaultItems: SocialItem[] = [
-{ letter: "C", icon: <FaGithub />, label: "Github", href: "#" },
-{ letter: "O", icon: <FaTwitter />, label: "Twitter", href: "#" },
-{ letter: "N", icon: <FaLinkedin />, label: "LinkedIn", href: "#" },
+{ letter: "C", icon: <FaGithub />, label: "Github", href: "https://github.com/shivangupadhyy" },
+{ letter: "O", icon: <FaTwitter />, label: "Twitter", href: "https://x.com/Shiv_ang07   " },
+{ letter: "N", icon: <FaLinkedin />, label: "LinkedIn", href: "https://www.linkedin.com/in/shivang-upadhyay-70277a240/  " },
 { letter: "T", icon: <FaInstagram />, label: "Instagram", href: "#" },
 { letter: "A", icon: <FaFacebook />, label: "Facebook", href: "#" },
-{ letter: "C", icon: <FaEnvelope />, label: "Email", href: "#" },
+{ letter: "C", icon: <FaEnvelope />, label: "Email", href: "shivangupadhyy@gmail.com" },
 { letter: "T", icon: <FaDiscord />, label: "Discord", href: "#" },
 ];
 
