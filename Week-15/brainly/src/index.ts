@@ -128,7 +128,7 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {
 
   res.json({
     username: user.username,
-    content
+    content : content
   });
 });
 
