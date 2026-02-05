@@ -8,7 +8,7 @@ function App() {
  <>
   <div>
     <Button variant="primary" text="Add Content" startIcon={<PlusIcon/>}></Button>
-    <Button variant="secondary" text="Share" startIcon={<ShareIcon/>}></Button>
+    <Button variant="secondary" text="Share Brain" startIcon={<ShareIcon/>}></Button>
   </div>
  </>
   
