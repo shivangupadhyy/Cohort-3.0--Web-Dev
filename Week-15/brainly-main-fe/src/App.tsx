@@ -1,12 +1,15 @@
-// impo?rt './App.css'
+
+import { Button } from "./components/Button"
 
 function App() {
   return (
-   <>
-   <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-   </>
+ <>
+  <div className="bg-red-300">
+    <Button variant="primary" text="Add Content"></Button>
+    <Button variant="secondary" text="Share"></Button>
+  </div>
+ </>
+  
   )
 }
 
