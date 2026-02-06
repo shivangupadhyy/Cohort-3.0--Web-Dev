@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CrossIcon } from "../icons/CrossIcon";
 
 export function CreateContentModal({open , onClose}){
 
@@ -9,9 +10,19 @@ export function CreateContentModal({open , onClose}){
                     <div className="flex justify-end">
                         <CrossIcon/>
                     </div>
+                    <div>
+
+                    </div>
                 </span>
             </div>
             </div>
             }
           </div>
+}
+
+
+function Input({onChange} : {onChange : () => void}){
+    return <div>
+        <input type={"text"} className="px-4 py-2" onChange={onChange}></input>
+    </div>
 }

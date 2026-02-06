@@ -1,5 +1,5 @@
-export function CrossIcon() {
-  return;
+export function CrossIcon(){
+  return(
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -13,5 +13,6 @@ export function CrossIcon() {
       stroke-linejoin="round"
       d="M6 18 18 6M6 6l12 12"
     />
-  </svg>;
+  </svg>
+  );
 }
