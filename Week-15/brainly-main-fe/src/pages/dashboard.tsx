@@ -1,11 +1,11 @@
 
 import { useState } from "react"
-import { Button } from "../src/components/Button"
-import { Card } from "../src/components/Card"
-import { CreateContentModal } from "../src/components/CreateContentModal"
-import { PlusIcon } from "../src/icons/PlusIcon"
-import { ShareIcon } from "../src/icons/ShareIcon"
-import { Sidebar } from "../src/components/Sidebar"
+import { Button } from "../components/Button"
+import { Card } from "../components/Card"
+import { CreateContentModal } from "../components/CreateContentModal"
+import { PlusIcon } from "../icons/PlusIcon"
+import { ShareIcon } from "../icons/ShareIcon"
+import { Sidebar } from "../components/Sidebar"
 
  export function Dashboard() {
 
@@ -26,9 +26,7 @@ import { Sidebar } from "../src/components/Sidebar"
     </div>
   
   <div className="flex gap-4">
-  <Card type="twitter" link="https://x.com/manojdotdev/status/2019379154341511615?s=20" title="First Twitte"/>
-  <Card type="youtube" link="https://www.youtube.com/watch?v=6g6LErEaF-s" title="First Youtube"/>
-  <Card type="twitter" link="https://x.com/manojdotdev/status/2019379154341511615?s=20" title="First Twitte"/>
+    <Card type="twitter" link="https://x.com/manojdotdev/status/2019379154341511615?s=20" title="First Twitte"/>
   <Card type="youtube" link="https://www.youtube.com/watch?v=6g6LErEaF-s" title="First Youtube"/>
   </div>
   </div>
