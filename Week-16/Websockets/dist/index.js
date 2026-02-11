@@ -1,4 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-console.log("hello");
+// console.log("hello")
+import { WebSocketServer } from "ws";
+const wss = new WebSocketServer({ port: 8080 });
+wss.on("connection", function (socket) {
+    console.log("user Connected");
+    socket.send("hello");
+});
 //# sourceMappingURL=index.js.map
