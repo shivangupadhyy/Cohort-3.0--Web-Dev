@@ -34,6 +34,7 @@ function App() {
     return (  
     <>
       <div className="h-screen bg-black">
+        <h1 className="text-4xl text-white text-center p-4">Chat App</h1>
         <br/> <br/> <br/>
         <div className="h-[85vh]">
           {messages.map(message =><div className="m-8 p-1"> 
