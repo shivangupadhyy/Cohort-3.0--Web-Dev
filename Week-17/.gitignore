@@ -1,0 +1,20 @@
+
+./node_modules
+./dist
+.DS_Store
+
+# Ignore environment variable files
+.env
+.env.local
+.node_modeles
+.vscode
+# Ignore log files
+*.log
+./logs
+.eslintcache
+# Ignore TypeScript build files
+*.tsbuildinfo
+
+
+
+
