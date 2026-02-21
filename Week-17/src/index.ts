@@ -12,11 +12,13 @@ app.post("/signup", async (req, res) => {
 
     try {
         // insert user and return its id
+
         const insertQuery = `INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id`;
         const userResult = await pgClient.query(insertQuery, [username, email, password]);
         const userId = userResult.rows[0].id;
 
         // insert address using returned user id
+        
         const addressInsertQuery = `INSERT INTO addresses (city, country, street, pincode, user_id) VALUES($1, $2, $3, $4, $5)`;
         await pgClient.query(addressInsertQuery, [city, country, street, pincode, userId]);
 
