@@ -395,6 +395,36 @@ import ts = require("typescript");
 //     return ans;
 // }
 
+function sum(a : number, b : number) : number{
+    return a+b;
+}
+
+console.log(sum(2, 3));
 
 
+function isLegal(age : number) : boolean{
+    if(age > 18){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+console.log(isLegal(2));
+
+
+//create a function that takes another function as input, and runns it after 1 second
+
+function delayedCall(fn: ()=>void){
+    setTimeout(fn, 1000);
+}
+
+delayedCall(function(){
+    console.log("hello  dosto...");
+})
+
+
+interface User{
+    first
+}
 
