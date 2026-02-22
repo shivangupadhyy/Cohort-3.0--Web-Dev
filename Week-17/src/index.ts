@@ -10,8 +10,22 @@ const pgClient = new Client("postgresql://neondb_owner:npg_YjZwf5Ico8SB@ep-royal
 pgClient.on('error', (err) => {
     console.error('Postgres client error', err);
 });
+// log when the client closes
+pgClient.on('end', () => {
+    console.warn('Postgres client has closed the connection');
+});
 
-pgClient.connect();
+// attempt to connect and catch DNS/network errors explicitly
+async function initializeDb() {
+    try {
+        await pgClient.connect();
+        console.log('Connected to Postgres');
+    } catch (err) {
+        console.error('Could not connect to Postgres:', err);
+        // optionally retry logic could be placed here
+    }
+}
+initializeDb();
 
 app.post("/signup", async (req, res) => {
     const { username, password, email , city, country , street, pincode } = req.body;
@@ -44,20 +58,20 @@ app.post("/signup", async (req, res) => {
 
 
 // allow GET requests for metadata so simple browser queries work
-app.get("/metadata", async (req, res) => {
-    const id = req.query.id;
+// app.get("/metadata", async (req, res) => {
+//     const id = req.query.id;
 
-    const query1 = `SELECT * FROM users WHERE id=$1`;
-    const response1 = await pgClient.query(query1, [id]);
+//     const query1 = `SELECT * FROM users WHERE id=$1`;
+//     const response1 = await pgClient.query(query1, [id]);
 
-    const query2 = `SELECT * FROM addresses WHERE user_id=$1`;
-    const response2 = await pgClient.query(query2, [id]);
+//     const query2 = `SELECT * FROM addresses WHERE user_id=$1`;
+//     const response2 = await pgClient.query(query2, [id]);
 
-    res.json({
-        user: response1.rows[0],
-        address: response2.rows[0]
-    });
-});
+//     res.json({
+//         user: response1.rows[0],
+//         address: response2.rows[0]
+//     });
+// });
 
 app.get('/better-metadata', async(req, res)=>{
     const id = req.query.id;
