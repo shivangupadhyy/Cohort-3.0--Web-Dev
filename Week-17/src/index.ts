@@ -6,23 +6,19 @@ const app = express();
 app.use(express.json());
 const pgClient = new Client("postgresql://neondb_owner:npg_YjZwf5Ico8SB@ep-royal-truth-a1eqgfh9-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=verify-full&channel_binding=require");
 
-// add error handler so that unexpected connection errors don't crash the process
 pgClient.on('error', (err) => {
     console.error('Postgres client error', err);
 });
-// log when the client closes
 pgClient.on('end', () => {
     console.warn('Postgres client has closed the connection');
 });
 
-// attempt to connect and catch DNS/network errors explicitly
 async function initializeDb() {
     try {
         await pgClient.connect();
         console.log('Connected to Postgres');
     } catch (err) {
         console.error('Could not connect to Postgres:', err);
-        // optionally retry logic could be placed here
     }
 }
 initializeDb();
@@ -31,7 +27,6 @@ app.post("/signup", async (req, res) => {
     const { username, password, email , city, country , street, pincode } = req.body;
 
     try {
-        // insert user and return its id
 
         const insertQuery = `INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id`;
          const addressInsertQuery = `INSERT INTO addresses (city, country, street, pincode, user_id) VALUES($1, $2, $3, $4, $5)`;
