@@ -5,6 +5,12 @@ const app = express();
 
 app.use(express.json());
 const pgClient = new Client("postgresql://neondb_owner:npg_YjZwf5Ico8SB@ep-royal-truth-a1eqgfh9-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=verify-full&channel_binding=require");
+
+// add error handler so that unexpected connection errors don't crash the process
+pgClient.on('error', (err) => {
+    console.error('Postgres client error', err);
+});
+
 pgClient.connect();
 
 app.post("/signup", async (req, res) => {
@@ -14,13 +20,18 @@ app.post("/signup", async (req, res) => {
         // insert user and return its id
 
         const insertQuery = `INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id`;
+         const addressInsertQuery = `INSERT INTO addresses (city, country, street, pincode, user_id) VALUES($1, $2, $3, $4, $5)`;
+
+         await pgClient.query("BEGIN;")
+
         const userResult = await pgClient.query(insertQuery, [username, email, password]);
         const userId = userResult.rows[0].id;
-
-        // insert address using returned user id
-        
-        const addressInsertQuery = `INSERT INTO addresses (city, country, street, pincode, user_id) VALUES($1, $2, $3, $4, $5)`;
+        // avoid long artificial delay; keeping a transaction open for 100 seconds triggers
+        // remote connection termination on some hosted databases.
         await pgClient.query(addressInsertQuery, [city, country, street, pincode, userId]);
+        
+        await pgClient.query("COMMIT;")
+
 
         res.json({
             message: "You have been signed up"
@@ -31,7 +42,25 @@ app.post("/signup", async (req, res) => {
     }
 })
 
+
+// allow GET requests for metadata so simple browser queries work
+app.get("/metadata", async (req, res) => {
+    const id = req.query.id;
+
+    const query1 = `SELECT * FROM users WHERE id=$1`;
+    const response1 = await pgClient.query(query1, [id]);
+
+    const query2 = `SELECT * FROM addresses WHERE user_id=$1`;
+    const response2 = await pgClient.query(query2, [id]);
+
+    res.json({
+        user: response1.rows[0],
+        address: response2.rows[0]
+    });
+});
 app.listen(3000);
+
+
 
 
 
