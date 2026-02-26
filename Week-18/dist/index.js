@@ -30,15 +30,27 @@ const client = new PrismaClient();
 //     }
 //   })
 // }
-async function findUser() {
+// async function findUser(){
+//   const user = await client.user.findFirst({
+//     where:{
+//       id : 1,
+//     }
+//   })
+//   console.log(user);
+// }
+async function getTodos() {
     const user = await client.user.findFirst({
         where: {
             id: 1,
+        },
+        include: {
+            todos: true
         }
     });
     console.log(user);
 }
-findUser();
+// findUser();
+getTodos();
 // createUser();
 // deleteUser();
 // updateUser();
