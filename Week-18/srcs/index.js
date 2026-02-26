@@ -1,0 +1,14 @@
+import { PrismaClient } from '@prisma/client';
+const client = new PrismaClient();
+async function createUser() {
+    await client.user.create({
+        data: {
+            username: "Shivang",
+            password: "123322",
+            firstName: "Shivanah",
+            lastName: "Upadhyay"
+        }
+    });
+}
+createUser();
+//# sourceMappingURL=index.js.map
