@@ -5,7 +5,7 @@ const adminMiddleware = require("../middlewares/adminMiddleware");
 const { AdminModel, CourseModel } = require("../db/db");
 
 const adminRouter = express.Router();
-const JWT_SECRET = "ilove100xdev";
+const JWT_SECRET = "SCERECTKEY";
 
 // Zod schema for admin signup
 const signupSchema = zod.object({
