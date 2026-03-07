@@ -16,7 +16,7 @@ export default async function User(){
 
     const response = await axios.get("https://jsonplaceholder.typicode.com/users/1")
     const data = response.data;
-    console.log(" request went out");
+    console.log(" request went out")
 
     // if(loading){
     //     return <h1>Loading..</h1>
