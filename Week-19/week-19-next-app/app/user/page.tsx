@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default async function User(){
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     // const [data, setData] = useState();
 
     // useEffect(()=>{
@@ -16,6 +16,9 @@ export default async function User(){
 
     const response = await axios.get("https://jsonplaceholder.typicode.com/users/1")
     const data = response.data;
+
+    await new Promise(r => setTimeout(r, 5000)) // to show loading state for 5 seconds
+
     console.log(" request went out")  
 
     // if(loading){
