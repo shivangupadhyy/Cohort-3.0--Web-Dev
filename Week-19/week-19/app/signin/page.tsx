@@ -3,7 +3,7 @@
 import axios from "axios"
 import { useState } from "react";
 
-export default function Signup(){
+export default function Signin(){
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     return <div className="w-screen h-screen flex justify-center items-center">
@@ -16,11 +16,11 @@ export default function Signup(){
             }}></input>
 
             <button onClick={()=>{
-                axios.post("http://localhost:3000/api/v1/signup",{
+                axios.post("http://localhost:3000/api/v1/signin",{
                     username,
                     password
                 })
-            }} className="border p-1 mt-2">Signup</button>
+            }} className="border p-1 mt-2">Signin</button>
         </div>
     </div> 
 }
