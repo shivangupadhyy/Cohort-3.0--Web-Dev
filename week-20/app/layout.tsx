@@ -1,0 +1,22 @@
+
+
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+    >
+      <body className="min-h-full flex flex-col">
+        <div>hi there</div>
+        {children}
+        <div>
+          bye
+        </div>
+        </body>
+    </html>
+  );
+}
