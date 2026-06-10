@@ -1,7 +1,8 @@
 export default function(){
     return (
         <div>
-            User Page
+            User Page testing
+            
         </div>
     )
 }
