@@ -14,7 +14,7 @@ export default function RootLayout({
         <div>hi there</div>
         {children}
         <div>
-          bye
+          bye 
         </div>
         </body>
     </html>
